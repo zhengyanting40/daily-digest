@@ -44,7 +44,7 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
 <div class="header">
   <h1>📰 每日新闻速递</h1>
   <div class="date">📆 2026年6月3日 星期三</div>
-  <div class="note">数据截止：A股/港股 6月3日收盘 · 美股 6月3日盘中 · 外汇/商品 实时</div>
+  <div class="note">数据截止：A股/港股 6月3日收盘 · 美股 6月3日盘中 · 外汇 实时</div>
 </div>
 
 <!-- ===== 1. 港股 ===== -->
@@ -57,13 +57,12 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
   </div>
   <div class="section-subtitle">📈 领涨板块</div>
   <div class="sector-grid">
-    <span class="sector-item"><span class="up">▲ 1.42%</span> 半导体（云英谷科技+13.68%）</span>
+    <span class="sector-item"><span class="up">▲ 1.42%</span> 半导体</span>
     <span class="sector-item"><span class="up">▲ 1.11%</span> 工业工程</span>
     <span class="sector-item"><span class="up">▲ 0.44%</span> 建筑</span>
     <span class="sector-item"><span class="up">▲ 0.34%</span> 石油及天然气</span>
     <span class="sector-item"><span class="up">▲ 0.30%</span> 煤炭</span>
   </div>
-  <div style="font-size:12px;color:#484f58;margin-top:6px;">* 港股数据限制，仅展示领涨板块</div>
 </div>
 
 <!-- ===== 2. A股 ===== -->
@@ -73,11 +72,6 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
     <div class="index-name">上证指数</div>
     <div class="index-price">4,083.97</div>
     <div class="index-change"><span class="up">▲ 8.87 (0.22%)</span></div>
-  </div>
-  <div class="index-row">
-    <div class="index-name">深证成指</div>
-    <div class="index-price" style="color:#8b949e;">—</div>
-    <div class="index-change"><span style="color:#8b949e;">N/A</span></div>
   </div>
   <div class="index-row">
     <div class="index-name">创业板指</div>
@@ -137,10 +131,21 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
     <div class="index-price">50,930.02</div>
     <div class="index-change"><span class="down">▼ 377.77 (0.74%)</span></div>
   </div>
-  <div style="font-size:12px;color:#484f58;margin-top:6px;">* 美股仍在交易中，数据为实时行情</div>
 </div>
 
-<!-- ===== 4. 外汇 ===== -->
+<!-- ===== 4. 国际股市 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🌍</span> 国际股市</div>
+  <div style="font-size:13px;color:#484f58;text-align:center;padding:8px 0;">🌙 数据暂缺 · Yahoo Finance 网络不可达</div>
+</div>
+
+<!-- ===== 5. 美债 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">📄</span> 美债收益率</div>
+  <div style="font-size:13px;color:#484f58;text-align:center;padding:8px 0;">🌙 数据暂缺 · Yahoo Finance 网络不可达</div>
+</div>
+
+<!-- ===== 6. 外汇 ===== -->
 <div class="section">
   <div class="section-title"><span class="icon">💱</span> 外汇</div>
   <div class="index-row">
@@ -165,7 +170,19 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
   </div>
 </div>
 
-<!-- ===== 5. 新闻 ===== -->
+<!-- ===== 7. 商品 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">🛢️</span> 商品</div>
+  <div style="font-size:13px;color:#484f58;text-align:center;padding:8px 0;">🌙 数据暂缺 · Yahoo Finance 网络不可达</div>
+</div>
+
+<!-- ===== 8. 加密货币 ===== -->
+<div class="section">
+  <div class="section-title"><span class="icon">₿</span> 加密货币</div>
+  <div style="font-size:13px;color:#484f58;text-align:center;padding:8px 0;">🌙 数据暂缺 · Yahoo Finance 网络不可达</div>
+</div>
+
+<!-- ===== 9. 新闻 ===== -->
 <div class="section">
   <div class="section-title"><span class="icon">📰</span> 要闻</div>
 
@@ -192,7 +209,7 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
   <div class="news-item">• <a href="https://www.ftchinese.com/story/001109919" target="_blank">埃斯特•米兰达•佩雷拉：期待巴西与中国形成可持续的科研与医疗协作网络</a></div>
 </div>
 
-<!-- ===== 6. 今日总结 ===== -->
+<!-- ===== 10. 今日总结 ===== -->
 <div class="section" style="border-color:#30363d;">
   <div class="section-title"><span class="icon">📋</span> 今日总结</div>
   <div style="font-size:14px;line-height:1.8;color:#c9d1d9;">
@@ -221,8 +238,10 @@ body {font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue
 </div>
 
 <div class="footer">
-  📊 数据来源：新浪财经 · 东方财富 · FT中文网<br>
+  📊 数据来源：新浪财经MCP · 东方财富 · FT中文网<br>
   更新日期：2026年6月3日<br>
+  <a href="tetris.html" style="color:#58a6ff;">🎮 俄罗斯方块</a> ·
+  <a href="archive.html" style="color:#58a6ff;">📂 历史存档</a>
 </div>
 
 </div>
