@@ -140,16 +140,16 @@ body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFo
 <!-- 5. 美债 -->
 <div class="section" style="border-color:#30363d;">
 <div class="section-title"><span class="icon">📄</span> 美债收益率</div>
-<div class="data-row"><span class="name">3月期</span><span class="value">3.727%</span><span class="change"><span class="down">▼ 0.14%</span></span></div>
-<div class="data-row"><span class="name">5年期</span><span class="value">4.193%</span><span class="change"><span class="down">▼ 0.59%</span></span></div>
-<div class="data-row"><span class="name">10年期</span><span class="value">4.475%</span><span class="change"><span class="down">▼ 0.40%</span></span></div>
-<div class="data-row"><span class="name">30年期</span><span class="value">4.981%</span><span class="change"><span class="down">▼ 0.08%</span></span></div>
+<div class="data-row"><span class="name">3月期</span><span class="value">3.618%</span><span class="change"><span>0.00%</span></span></div>
+<div class="data-row"><span class="name">5年期</span><span class="value">4.188%</span><span class="change"><span class="down">▼ 0.59%</span></span></div>
+<div class="data-row"><span class="name">10年期</span><span class="value">4.469%</span><span class="change"><span class="down">▼ 0.40%</span></span></div>
+<div class="data-row"><span class="name">30年期</span><span class="value">4.971%</span><span class="change"><span class="down">▼ 0.08%</span></span></div>
 </div>
 
 <!-- 6. 外汇 -->
 <div class="section" style="border-color:#30363d;">
 <div class="section-title"><span class="icon">💱</span> 外汇</div>
-<div class="data-row"><span class="name">DXY 美元指数</span><span class="value">99.66</span><span class="change"><span class="down">▼ 0.09%</span></span></div>
+<div class="data-row"><span class="name">DXY 美元指数</span><span class="value">99.66</span><span class="change">{fmt_pct(yf.get('dxy',{}).get('pct'))}</span></div>
 <div class="data-row"><span class="name">EUR/USD</span><span class="value">1.1586</span><span class="change"><span class="down">▼ 0.03%</span></span></div>
 <div class="data-row"><span class="name">USD/JPY</span><span class="value">160.33</span><span class="change"><span class="up">▲ 0.01%</span></span></div>
 <div class="data-row"><span class="name">USD/CNY</span><span class="value">6.7568</span><span class="change"><span>0.00%</span></span></div>
@@ -230,7 +230,7 @@ body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFo
 全球股市全线大幅反弹：A股三大指数全面上扬，上证+1.61%、深证+3.79%、创业板+5.30%领涨全球；
 美股同样强劲反弹，纳指+3.07%、标普+1.65%、道指+0.92%；亚太市场暴涨（日经+2.81%、KOSPI+4.63%），
 欧洲市场集体走强（斯托克50+2.16%、DAX+1.76%、CAC+1.83%），唯英国富时100微跌-0.39%。
-美债收益率小幅回落，10年期收于4.475%(-0.40%)，30年期4.981%(-0.08%)。
+美债收益率小幅回落，10年期收于4.469%(-0.40%)，30年期4.971%(-0.08%)。
 美元指数微跌至99.66(-0.09%)，人民币兑美元持稳于6.7568。
 <br><br>
 
