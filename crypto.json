@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-06-02T00:00:00Z",
+  "source": "Yahoo Finance v8 chart API",
+  "data": [
+    {
+      "ticker": "BTC-USD",
+      "name": "Bitcoin USD",
+      "price": 71239.36,
+      "previousClose": 73568.40,
+      "change": -2329.04,
+      "changePercent": -3.166
+    },
+    {
+      "ticker": "ETH-USD",
+      "name": "Ethereum USD",
+      "price": 1998.37,
+      "previousClose": 2004.03,
+      "change": -5.66,
+      "changePercent": -0.282
+    }
+  ]
+}

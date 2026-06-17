@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-06-02T00:00:00Z",
+  "source": "Yahoo Finance v8 chart API",
+  "data": [
+    {
+      "ticker": "^N225",
+      "name": "Nikkei 225",
+      "price": 66934.33,
+      "previousClose": 66329.50,
+      "change": 604.83,
+      "changePercent": 0.912
+    },
+    {
+      "ticker": "^KS11",
+      "name": "KOSPI Composite Index",
+      "price": 8788.38,
+      "previousClose": 8476.15,
+      "change": 312.23,
+      "changePercent": 3.684
+    },
+    {
+      "ticker": "^FTSE",
+      "name": "FTSE 100",
+      "price": 10338.95,
+      "previousClose": 10409.28,
+      "change": -70.33,
+      "changePercent": -0.676
+    },
+    {
+      "ticker": "^STOXX50E",
+      "name": "Euro Stoxx 50",
+      "price": 6034.95,
+      "previousClose": 6050.54,
+      "change": -15.59,
+      "changePercent": -0.258
+    },
+    {
+      "ticker": "^AXJO",
+      "name": "S&P/ASX 200",
+      "price": 8729.40,
+      "previousClose": 8731.70,
+      "change": -2.30,
+      "changePercent": -0.026
+    },
+    {
+      "ticker": "^BSESN",
+      "name": "S&P BSE SENSEX",
+      "price": 74267.34,
+      "previousClose": 74775.74,
+      "change": -508.40,
+      "changePercent": -0.680
+    }
+  ]
+}

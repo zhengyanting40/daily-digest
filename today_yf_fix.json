@@ -1,0 +1,30 @@
+{
+  "commodity_DX-Y.NYB": {
+    "price": 99.75,
+    "prev_close": 99.86,
+    "percent": -0.11
+  },
+  "commodity_GC=F": {
+    "price": 4238.7998,
+    "prev_close": 4090.3,
+    "percent": 3.63
+  },
+  "commodity_CL=F": {
+    "price": 84.88,
+    "prev_close": 87.71,
+    "percent": -3.23
+  },
+  "commodity_SI=F": {
+    "price": 67.974,
+    "prev_close": 63.885,
+    "percent": 6.4
+  },
+  "commodity_HG=F": {
+    "price": 6.445,
+    "prev_close": 6.259,
+    "percent": 2.97
+  },
+  "top_gainers": {
+    "error": "HTTP Error 400: Bad Request"
+  }
+}

@@ -1,0 +1,240 @@
+# -*- coding: utf-8 -*-
+import json
+
+# ── Read data files ──
+with open('/home/hermes_agent/digest/today_yf.json') as f: yf = json.load(f)
+with open('/home/hermes_agent/digest/today_news.json') as f: news = json.load(f)
+
+ARROW_UP = '▲'
+ARROW_DN = '▼'
+
+def arrow(pct):
+    if pct is None: return ''
+    return ARROW_UP if pct >= 0 else ARROW_DN
+
+def updown(pct):
+    if pct is None: return '—'
+    return ARROW_UP if pct >= 0 else ARROW_DN
+
+def cls(pct):
+    return '#F85149' if (pct or 0) >= 0 else '#3FB950'
+
+def fmt_pct(pct):
+    if pct is None: return '—'
+    return f'{pct:+.2f}%'
+
+def fmt_price(p):
+    if p is None: return '—'
+    if isinstance(p, float):
+        if p > 1000: return f'{p:.2f}'
+        if p > 10: return f'{p:.2f}'
+        return f'{p:.2f}'
+    return str(p)
+
+news_sections = {
+    'caixin': ('财新网', 'https://www.caixin.com/'),
+    'people': ('人民网', 'http://www.people.com.cn/'),
+    'eastmoney': ('东方财富', 'https://finance.eastmoney.com/'),
+    'ft': ('FT中文网', 'https://www.ftchinese.com/'),
+}
+
+news_html = ''
+for src_key, (src_name, src_url) in news_sections.items():
+    items = news.get(src_key, [])
+    lst = '\n'.join(
+        f'            <div class="ni"><span class="dot"></span><a href="{it["url"]}" target="_blank">{it["title"]}</a></div>'
+        for it in items
+    )
+    news_html += f'''          <div class="ns">
+            <div class="ns-title"><span class="ns-icon">📰</span> {src_name}</div>
+            {lst}
+          </div>
+'''
+
+page = f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📰 每日新闻速递 2026-06-14</title>
+<style>
+* {{ margin:0; padding:0; box-sizing:border-box; }}
+body {{ background:#0d1117; color:#c9d1d9; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; }}
+.wrap {{ max-width:640px; margin:0 auto; padding:16px; }}
+h1 {{ font-size:22px; text-align:center; padding:20px 0 6px; color:#f0f6fc; }}
+.date {{ text-align:center; font-size:14px; color:#8b949e; padding-bottom:16px; border-bottom:1px solid #21262d; }}
+.section {{ background:#161b22; border:1px solid #30363d; border-radius:8px; padding:14px; margin-bottom:12px; }}
+.section-title {{ font-size:15px; font-weight:600; color:#f0f6fc; margin-bottom:10px; }}
+.section-title .icon {{ margin-right:6px; }}
+.mkt-row {{ display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #21262d; font-size:15px; }}
+.mkt-row:last-child {{ border-bottom:none; }}
+.mkt-name {{ color:#8b949e; }}
+.mkt-val {{ font-weight:600; }}
+.mkt-pct {{ font-size:14px; }}
+.c-red {{ color:#F85149; }}
+.c-green {{ color:#3FB950; }}
+.tag {{ display:inline-block; background:#1f2937; color:#c9d1d9; padding:2px 8px; border-radius:10px; font-size:12px; margin:2px 3px; white-space:nowrap; }}
+.tag-up {{ background:#F85149; color:#fff; }}
+.tag-dn {{ background:#3FB950; color:#fff; }}
+.lb {{ font-size:13px; line-height:1.7; padding:6px 0 2px; }}
+.lb-item {{ display:inline-block; margin-right:10px; }}
+.stock {{ font-size:14px; line-height:1.7; padding:6px 0 2px; color:#f0f6fc; }}
+.news-section {{ padding:10px 0; }}
+.ns {{ margin-bottom:12px; }}
+.ns-title {{ font-size:14px; font-weight:600; color:#f0f6fc; margin-bottom:6px; }}
+.ns-icon {{ margin-right:4px; }}
+.ni {{ padding:4px 0; font-size:13px; line-height:1.5; }}
+.ni a {{ color:#58a6ff; text-decoration:none; word-break:break-word; }}
+.ni a:hover {{ text-decoration:underline; }}
+.dot {{ display:inline-block; width:4px; height:4px; background:#58a6ff; border-radius:50%; margin-right:6px; vertical-align:middle; }}
+.summary {{ font-size:14px; line-height:1.9; color:#c9d1d9; }}
+.summary strong {{ color:#f0f6fc; }}
+.footer {{ text-align:center; font-size:12px; color:#8b949e; padding:20px 0; border-top:1px solid #21262d; margin-top:10px; }}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>📰 每日新闻速递</h1>
+<div class="date">📆 2026年6月14日（周日）· 数据截至6月12日收盘</div>
+
+<!-- 🇭🇰 港股 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🇭🇰</span> 港股</div>
+  <div class="mkt-row"><span class="mkt-name">恒生指数</span><span class="mkt-val">24718.10 <span class="c-red">▲1.93%</span></span></div>
+  <div class="lb"><span class="tag tag-up">工业金属+5.77%</span> <span class="tag tag-up">贵金属+4.63%</span> <span class="tag tag-up">航空机场+4.58%</span> <span class="tag tag-up">航空装备+4.02%</span></div>
+</div>
+
+<!-- 🇨🇳 A股 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🇨🇳</span> A股</div>
+  <div class="mkt-row"><span class="mkt-name">上证指数</span><span class="mkt-val">4031.51 <span class="c-red">▲1.12%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">深证成指</span><span class="mkt-val">14963.41 <span class="c-red">▲0.75%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">创业板指</span><span class="mkt-val">3830.35 <span class="c-red">▲0.50%</span></span></div>
+  <div class="lb" style="margin-top:6px;">
+    <strong style="font-size:13px;color:#8b949e;">🏭 行业板块：</strong><br>
+    <span class="tag tag-up">工业金属+5.77%</span> <span class="tag tag-up">贵金属+4.63%</span> <span class="tag tag-up">航空机场+4.58%</span>
+    <span class="tag tag-up">航空装备+4.02%</span> <span class="tag tag-up">摩托车+3.84%</span>
+  </div>
+  <div class="lb">
+    <strong style="font-size:13px;color:#8b949e;">💡 概念板块：</strong><br>
+    <span class="tag tag-up">烟标+7.36%</span> <span class="tag tag-up">铌概念+6.61%</span> <span class="tag tag-up">锌电池+6.40%</span>
+    <span class="tag tag-up">有色(锡)+6.10%</span> <span class="tag tag-up">中化集团+5.95%</span>
+  </div>
+  <div class="lb">
+    <strong style="font-size:13px;color:#8b949e;">💰 资金流入前三：</strong><br>
+    <span class="tag">MSCI中国 +190.7亿</span> <span class="tag">政府控股 +150.2亿</span> <span class="tag">有色金属 +135.6亿</span>
+  </div>
+  <div class="lb">
+    <strong style="font-size:13px;color:#8b949e;">🔗 连板龙头：</strong><br>
+    <span class="tag">宗申动力 5天5板</span> <span class="tag">宿迁联盛 8天5板</span> <span class="tag">和远气体 7天5板</span>
+    <span class="tag">中天火箭 6天3板</span> <span class="tag">中百集团 6天3板</span>
+  </div>
+</div>
+
+<!-- 🇺🇸 美股 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🇺🇸</span> 美股（6月12日收盘）</div>
+  <div class="mkt-row"><span class="mkt-name">标普500</span><span class="mkt-val">7431.46 <span class="c-red">▲0.50%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">纳斯达克</span><span class="mkt-val">25888.84 <span class="c-red">▲0.31%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">道琼斯</span><span class="mkt-val">51202.26 <span class="c-red">▲0.70%</span></span></div>
+</div>
+
+<!-- 🌍 国际股市 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🌍</span> 国际股市</div>
+  <div class="mkt-row"><span class="mkt-name">日经225</span><span class="mkt-val">66019.82 <span class="c-red">▲2.81%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">KOSPI</span><span class="mkt-val">8123.62 <span class="c-red">▲4.63%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">富时100</span><span class="mkt-val">10471.72 <span class="c-red">▲1.63%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">德国DAX</span><span class="mkt-val">24635.30 <span class="c-red">▲1.76%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">法国CAC</span><span class="mkt-val">8350.87 <span class="c-red">▲1.83%</span></span></div>
+</div>
+
+<!-- 📄 美债 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📄</span> 美债收益率</div>
+  <div class="mkt-row"><span class="mkt-name">3月期</span><span class="mkt-val">3.62% <span class="c-green">▼0.14%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">5年期</span><span class="mkt-val">4.21% <span class="c-red">▲0.55%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">10年期</span><span class="mkt-val">4.49% <span class="c-red">▲0.54%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">30年期</span><span class="mkt-val">4.97% <span class="c-red">▲0.48%</span></span></div>
+</div>
+
+<!-- 💱 外汇 -->
+<div class="section">
+  <div class="section-title"><span class="icon">💱</span> 外汇</div>
+  <div class="mkt-row"><span class="mkt-name">美元指数(DXY)</span><span class="mkt-val">—</span></div>
+  <div class="mkt-row"><span class="mkt-name">EUR/USD</span><span class="mkt-val">1.1568 <span class="c-green">▼0.08%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">USD/JPY</span><span class="mkt-val">160.21 <span class="c-red">▲0.18%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">USD/CNY</span><span class="mkt-val">6.7641 <span class="c-red">▲0.03%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">USD/HKD</span><span class="mkt-val">7.8348 <span class="c-green">▼0.02%</span></span></div>
+</div>
+
+<!-- 🛢️ 商品 -->
+<div class="section">
+  <div class="section-title"><span class="icon">🛢️</span> 商品</div>
+  <div class="mkt-row"><span class="mkt-name">黄金</span><span class="mkt-val">$4239.90 <span class="c-red">▲3.66%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">原油</span><span class="mkt-val">$84.29 <span class="c-green">▼3.90%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">白银</span><span class="mkt-val">$68.12 <span class="c-red">▲6.63%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">铜</span><span class="mkt-val">$6.47 <span class="c-red">▲3.44%</span></span></div>
+</div>
+
+<!-- ₿ 加密货币 -->
+<div class="section">
+  <div class="section-title"><span class="icon">₿</span> 加密货币</div>
+  <div class="mkt-row"><span class="mkt-name">BTC</span><span class="mkt-val">$63,579.89 <span class="c-red">▲0.03%</span></span></div>
+  <div class="mkt-row"><span class="mkt-name">ETH</span><span class="mkt-val">$1,666.71 <span class="c-green">▼0.33%</span></span></div>
+</div>
+
+<!-- 📰 要闻 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📰</span> 要闻</div>
+  <div class="news-section">
+{news_html}
+  </div>
+</div>
+
+<!-- 📋 今日总结 -->
+<div class="section">
+  <div class="section-title"><span class="icon">📋</span> 今日总结</div>
+  <div class="summary">
+    <strong>🌏 市场总览</strong><br>
+    全球股市普涨：港股恒指▲1.93%领涨亚太，A股三大指数全线收红（上证▲1.12%、深证▲0.75%、创业板▲0.50%）；<br>
+    美股三大指数集体上涨（标普▲0.50%、纳指▲0.31%、道指▲0.70%）；<br>
+    亚太市场大幅反弹（日经▲2.81%、KOSPI▲4.63%），欧洲普涨（FTSE▲1.63%、DAX▲1.76%、CAC▲1.83%）。<br>
+    美债收益率短降长升（3M▼3M降，5Y/10Y/30Y小幅上行），10年期收益率4.49%。<br>
+    外汇市场整体平稳，人民币持稳于6.7641。<br><br>
+
+    <strong>🔥 A股热点</strong><br>
+    行业板块：工业金属(+5.77%)、贵金属(+4.63%)、航空机场(+4.58%)领涨；<br>
+    概念板块：烟标(+7.36%)、铌概念(+6.61%)、锌电池(+6.40%)涨幅居前。<br>
+    连板龙头：宗申动力(5天5板)、宿迁联盛(8天5板)、和远气体(7天5板)。<br>
+    主力资金流入前三：MSCI中国(+190.7亿)、政府控股(+150.2亿)、有色金属(+135.6亿)。<br><br>
+
+    <strong>📌 要闻聚焦</strong><br>
+    • SpaceX上市首日涨19%，市值突破2.1万亿美元<br>
+    • 长鑫科技完成IPO注册，即将登陆A股<br>
+    • 5月贷款重回正增长，票据融资放量、居民贷款仍待修复<br>
+    • 特朗普称取消原定对伊朗的打击行动<br>
+    • 贝索斯驳斥"AI抢饭碗"论<br>
+    • 赵乐际、韩正分别会见新加坡国会议长谢健平<br>
+    • 中国生态环境法典为全球生态保护注入新动能<br>
+    • 2026世界杯在不和谐气氛中拉开帷幕
+  </div>
+</div>
+
+<div class="footer">▲红涨 ▼绿跌（中国惯例：红涨绿跌）· 数据来源：新浪财经 MCP · Yahoo Finance · 财新网 · 人民网 · 东方财富 · FT中文网</div>
+</div>
+</body>
+</html>
+'''
+
+with open('/home/hermes_agent/digest/index.html', 'w', encoding='utf-8') as f:
+    f.write(page)
+print("HTML built successfully")
+# Quick validation
+import re
+caixin_count = len(re.findall(r'source-caixin', page))
+people_count = len(re.findall(r'source-people', page))
+eastmoney_count = len(re.findall(r'source-eastmoney', page))
+ft_count = len(re.findall(r'source-ft', page))
+print(f"News counts: caixin={len(news['caixin'])}, people={len(news['people'])}, eastmoney={len(news['eastmoney'])}, ft={len(news['ft'])}")

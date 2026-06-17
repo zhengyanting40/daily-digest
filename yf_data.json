@@ -1,0 +1,122 @@
+{
+  "HSI": {
+    "price": 24249.29,
+    "prev_close": 25253.4,
+    "currency": "HKD"
+  },
+  "SH": {
+    "price": 3993.23,
+    "prev_close": 4027.736,
+    "currency": "CNY"
+  },
+  "SZ": {
+    "price": 14851.976,
+    "prev_close": 15314.7,
+    "currency": "CNY"
+  },
+  "CYB": {
+    "price": 3811.246,
+    "prev_close": 3854.7935,
+    "currency": "CNY"
+  },
+  "SPX": {
+    "price": 7394.3,
+    "prev_close": 7584.31,
+    "currency": "USD"
+  },
+  "IXIC": {
+    "price": 25809.66,
+    "prev_close": 26830.96,
+    "currency": "USD"
+  },
+  "DJI": {
+    "price": 50848.75,
+    "prev_close": 51561.93,
+    "currency": "USD"
+  },
+  "N225": {
+    "price": 64217.27,
+    "prev_close": 66588.12,
+    "currency": "JPY"
+  },
+  "KS11": {
+    "price": 7763.95,
+    "prev_close": 8639.41,
+    "currency": "KRW"
+  },
+  "FTSE": {
+    "price": 10303.88,
+    "prev_close": 10360.3,
+    "currency": "GBP"
+  },
+  "DAX": {
+    "price": 24209.71,
+    "prev_close": 24944.95,
+    "currency": "EUR"
+  },
+  "CAC": {
+    "price": 8200.8,
+    "prev_close": 8218.24,
+    "currency": "EUR"
+  },
+  "IRX": {
+    "price": 3.623,
+    "prev_close": 3.625,
+    "currency": "USD"
+  },
+  "FVX": {
+    "price": 4.19,
+    "prev_close": 4.28,
+    "currency": "USD"
+  },
+  "TNX": {
+    "price": 4.463,
+    "prev_close": 4.536,
+    "currency": "USD"
+  },
+  "TYX": {
+    "price": 4.951,
+    "prev_close": 4.999,
+    "currency": "USD"
+  },
+  "GC": {
+    "price": 4248.8,
+    "prev_close": 4335.9,
+    "currency": "USD"
+  },
+  "CL": {
+    "price": 85.79,
+    "prev_close": 91.3,
+    "currency": "USD"
+  },
+  "SI": {
+    "price": 67.71,
+    "prev_close": 68.425,
+    "currency": "USD"
+  },
+  "HG": {
+    "price": 6.392,
+    "prev_close": 6.33,
+    "currency": "USD"
+  },
+  "BTC": {
+    "price": 63330.95,
+    "prev_close": 63239.52,
+    "currency": "USD"
+  },
+  "ETH": {
+    "price": 1670.84,
+    "prev_close": 1686.3962,
+    "currency": "USD"
+  },
+  "DXY": {
+    "price": 99.95,
+    "prev_close": 100.05,
+    "currency": "USD"
+  },
+  "EURUSD": {
+    "price": 1.1586,
+    "prev_close": 1.1523,
+    "currency": "USD"
+  }
+}

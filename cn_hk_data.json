@@ -1,0 +1,51 @@
+{
+  "cn_indices": {
+    "上证指数": {
+      "value": "4057.7400",
+      "change": "-10.8291",
+      "change_pct": "-0.27%"
+    },
+    "深证成指": {
+      "value": "15340.36",
+      "change": "-234.777",
+      "change_pct": "-1.51%"
+    },
+    "创业板指": {
+      "value": "3950.94",
+      "change": "-87.008",
+      "change_pct": "-2.15%"
+    }
+  },
+  "hk_index": {
+    "name": "恒生指数",
+    "value": "25398.180",
+    "change": "215.789",
+    "change_pct": "+0.857%"
+  },
+  "cn_hy_sectors": [],
+  "cn_gn_sectors": [],
+  "hk_sectors": [],
+  "cn_fund_flow": [],
+  "news_eastmoney": [
+    {
+      "title": "百诚医药控制权变更终止",
+      "url": "https://finance.eastmoney.com/a/202605313755229377.html"
+    },
+    {
+      "title": "艾德生物筹划控制权变更",
+      "url": "https://finance.eastmoney.com/a/202605313755239327.html"
+    },
+    {
+      "title": "英伟达+微软大动作 AI PC新时代到来？",
+      "url": "https://finance.eastmoney.com/a/202606013755283589.html"
+    },
+    {
+      "title": "Computex 2026将举行 黄仁勋将演讲",
+      "url": "https://finance.eastmoney.com/a/202605313755234953.html"
+    },
+    {
+      "title": "重磅来袭！黄仁勋杀入AI PC",
+      "url": "https://finance.eastmoney.com/a/202606013755243934.html"
+    }
+  ]
+}

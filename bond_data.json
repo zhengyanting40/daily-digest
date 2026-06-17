@@ -1,0 +1,26 @@
+{
+  "tnx": {
+    "name": "10年期",
+    "price": 4.491,
+    "change": 0.036,
+    "percent": 0.81
+  },
+  "irx": {
+    "name": "3个月",
+    "price": 3.623,
+    "change": 0.033,
+    "percent": 0.92
+  },
+  "fvx": {
+    "name": "5年期",
+    "price": 4.214,
+    "change": 0.054,
+    "percent": 1.3
+  },
+  "tyx": {
+    "name": "30年期",
+    "price": 4.99,
+    "change": 0.005,
+    "percent": 0.1
+  }
+}

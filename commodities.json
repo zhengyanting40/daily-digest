@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-06-02T00:00:00Z",
+  "source": "Yahoo Finance v8 chart API",
+  "data": [
+    {
+      "ticker": "GC=F",
+      "name": "Gold",
+      "price": 4516.50,
+      "previousClose": 4506.30,
+      "change": 10.20,
+      "changePercent": 0.226
+    },
+    {
+      "ticker": "CL=F",
+      "name": "Crude Oil",
+      "price": 92.31,
+      "previousClose": 92.16,
+      "change": 0.15,
+      "changePercent": 0.163
+    },
+    {
+      "ticker": "SI=F",
+      "name": "Silver",
+      "price": 75.265,
+      "previousClose": 75.254,
+      "change": 0.011,
+      "changePercent": 0.015
+    },
+    {
+      "ticker": "HG=F",
+      "name": "Copper",
+      "price": 6.5665,
+      "previousClose": 6.5525,
+      "change": 0.014,
+      "changePercent": 0.214
+    }
+  ]
+}

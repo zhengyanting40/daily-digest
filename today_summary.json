@@ -1,0 +1,166 @@
+{
+  "cn_indices": {
+    "上证指数": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "深证成指": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "创业板指": {
+      "error": "HTTP Error 400: Bad Request"
+    }
+  },
+  "hk_indices": {
+    "恒生指数": {
+      "error": "HTTP Error 400: Bad Request"
+    }
+  },
+  "us_indices": {
+    "标普500": {
+      "name": "S&P 500",
+      "value": 7599.96,
+      "change": 19.9,
+      "change_pct": "+0.26%"
+    },
+    "纳斯达克": {
+      "name": "NASDAQ Composite",
+      "value": 27086.81,
+      "change": 114.19,
+      "change_pct": "+0.42%"
+    },
+    "道琼斯": {
+      "name": "Dow Jones Industrial Average",
+      "value": 51078.88,
+      "change": 46.42,
+      "change_pct": "+0.09%"
+    }
+  },
+  "intl_indices": {
+    "日经225": {
+      "name": "Nikkei 225",
+      "value": 66934.33,
+      "change": 604.83,
+      "change_pct": "+0.91%"
+    },
+    "KOSPI": {
+      "name": "KOSPI Composite Index",
+      "value": 8788.38,
+      "change": 312.23,
+      "change_pct": "+3.68%"
+    },
+    "富时100": {
+      "name": "FTSE 100",
+      "value": 10338.95,
+      "change": -70.33,
+      "change_pct": "-0.68%"
+    },
+    "斯托克50": {
+      "name": "EURO STOXX 50                 I",
+      "value": 6034.95,
+      "change": -15.59,
+      "change_pct": "-0.26%"
+    },
+    "ASX 200": {
+      "name": "S&P/ASX 200 [XJO]",
+      "value": 8729.4,
+      "change": -2.3,
+      "change_pct": "-0.03%"
+    },
+    "NIFTY50": {
+      "name": "NIFTY 50",
+      "value": 23382.6,
+      "change": -165.15,
+      "change_pct": "-0.70%"
+    }
+  },
+  "cn_sectors_hy": [],
+  "cn_sectors_gn": [],
+  "cn_fund_inflow": [],
+  "cn_top_stocks": [],
+  "us_sectors": [],
+  "us_top_gainers": [],
+  "bonds": {
+    "3个月": {
+      "value": "3.620%",
+      "change": "+0.038",
+      "change_pct": "+1.06%"
+    },
+    "5年": {
+      "value": "4.186%",
+      "change": "+0.003",
+      "change_pct": "+0.07%"
+    },
+    "10年": {
+      "value": "4.475%",
+      "change": "-0.018",
+      "change_pct": "-0.40%"
+    },
+    "30年": {
+      "value": "4.991%",
+      "change": "-0.035",
+      "change_pct": "-0.70%"
+    }
+  },
+  "forex": {
+    "EUR/USD": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "USD/JPY": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "USD/CNY": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "USD/HKD": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "DXY": {
+      "name": "DXY=X",
+      "value": "N/A",
+      "change": "N/A",
+      "change_pct": "N/A",
+      "error": "HTTP Error 404: Not Found"
+    }
+  },
+  "commodities": {
+    "黄金": {
+      "name": "Gold Aug 26",
+      "value": 4518.1,
+      "change": 11.8,
+      "change_pct": "+0.26%"
+    },
+    "原油": {
+      "name": "Crude Oil Jul 26",
+      "value": 92.29,
+      "change": 0.13,
+      "change_pct": "+0.14%"
+    },
+    "白银": {
+      "name": "Silver Jul 26",
+      "value": 75.35,
+      "change": 0.1,
+      "change_pct": "+0.13%"
+    },
+    "铜": {
+      "name": "Copper Jul 26",
+      "value": 6.57,
+      "change": 0.01,
+      "change_pct": "+0.22%"
+    }
+  },
+  "crypto": {
+    "BTC": {
+      "name": "Bitcoin USD",
+      "value": 71206.3,
+      "change": -2362.1,
+      "change_pct": "-3.21%"
+    },
+    "ETH": {
+      "name": "Ethereum USD",
+      "value": 1997.88,
+      "change": -6.15,
+      "change_pct": "-0.31%"
+    }
+  },
+  "news": []
+}

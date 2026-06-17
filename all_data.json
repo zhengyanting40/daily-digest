@@ -1,0 +1,217 @@
+{
+  "us_^GSPC": {
+    "value": 7599.96,
+    "change": 19.9,
+    "change_pct": "+0.26%"
+  },
+  "us_^IXIC": {
+    "value": 27086.81,
+    "change": 114.19,
+    "change_pct": "+0.42%"
+  },
+  "us_^DJI": {
+    "value": 51078.88,
+    "change": 46.42,
+    "change_pct": "+0.09%"
+  },
+  "us_sectors": [
+    {
+      "name": "科技(XLK)",
+      "change_pct": "+2.48%"
+    },
+    {
+      "name": "能源(XLE)",
+      "change_pct": "+1.79%"
+    },
+    {
+      "name": "通信(XLC)",
+      "change_pct": "-0.07%"
+    },
+    {
+      "name": "金融(XLF)",
+      "change_pct": "-0.29%"
+    },
+    {
+      "name": "工业(XLI)",
+      "change_pct": "-0.42%"
+    }
+  ],
+  "us_gainers": [
+    {
+      "name": "Fluence Energy, Inc.",
+      "symbol": "FLNC",
+      "change_pct": "+43.80%",
+      "price": 27.15
+    },
+    {
+      "name": "Taylor Morrison Home Corporatio",
+      "symbol": "TMHC",
+      "change_pct": "+22.31%",
+      "price": 71.55
+    },
+    {
+      "name": "MongoDB, Inc.",
+      "symbol": "MDB",
+      "change_pct": "+20.36%",
+      "price": 403.88
+    },
+    {
+      "name": "Twilio Inc.",
+      "symbol": "TWLO",
+      "change_pct": "+19.36%",
+      "price": 227.54
+    },
+    {
+      "name": "SK Telecom Co., Ltd.",
+      "symbol": "SKM",
+      "change_pct": "+18.99%",
+      "price": 44.43
+    },
+    {
+      "name": "HubSpot, Inc.",
+      "symbol": "HUBS",
+      "change_pct": "+18.84%",
+      "price": 262.2
+    },
+    {
+      "name": "Edgewise Therapeutics, Inc.",
+      "symbol": "EWTX",
+      "change_pct": "+17.86%",
+      "price": 40.26
+    },
+    {
+      "name": "Applied Optoelectronics, Inc.",
+      "symbol": "AAOI",
+      "change_pct": "+17.21%",
+      "price": 185.67
+    },
+    {
+      "name": "MGM Resorts International",
+      "symbol": "MGM",
+      "change_pct": "+16.08%",
+      "price": 50.69
+    },
+    {
+      "name": "Klaviyo, Inc. Series A",
+      "symbol": "KVYO",
+      "change_pct": "+15.91%",
+      "price": 18.36
+    }
+  ],
+  "international": {
+    "日经225": {
+      "value": 66934.33,
+      "change": 604.83,
+      "change_pct": "+0.91%"
+    },
+    "KOSPI": {
+      "value": 8788.38,
+      "change": 312.23,
+      "change_pct": "+3.68%"
+    },
+    "富时100": {
+      "value": 10338.95,
+      "change": -70.33,
+      "change_pct": "-0.68%"
+    },
+    "斯托克50": {
+      "value": 6034.95,
+      "change": -15.59,
+      "change_pct": "-0.26%"
+    },
+    "ASX 200": {
+      "value": 8729.4,
+      "change": -2.3,
+      "change_pct": "-0.03%"
+    },
+    "NIFTY 50": {
+      "value": 23382.6,
+      "change": -165.15,
+      "change_pct": "-0.70%"
+    }
+  },
+  "bonds": {
+    "3个月": {
+      "value": "3.620%",
+      "change": "+0.0380",
+      "change_pct": "+1.06%"
+    },
+    "5年": {
+      "value": "4.186%",
+      "change": "+0.0030",
+      "change_pct": "+0.07%"
+    },
+    "10年": {
+      "value": "4.475%",
+      "change": "-0.0180",
+      "change_pct": "-0.40%"
+    },
+    "30年": {
+      "value": "4.991%",
+      "change": "-0.0350",
+      "change_pct": "-0.70%"
+    }
+  },
+  "forex_DXY": {
+    "value": 99.18,
+    "change": -0.02,
+    "change_pct": "-0.02%"
+  },
+  "forex": {
+    "EUR/USD": {
+      "value": 1.16,
+      "change": -0.0,
+      "change_pct": "-0.00%"
+    },
+    "USD/JPY": {
+      "value": 159.64,
+      "change": 0.06,
+      "change_pct": "+0.04%"
+    },
+    "USD/CNY": {
+      "value": 6.76,
+      "change": 0.0,
+      "change_pct": "+0.00%"
+    },
+    "USD/HKD": {
+      "value": 7.84,
+      "change": 0.0,
+      "change_pct": "+0.01%"
+    }
+  },
+  "commodities": {
+    "黄金": {
+      "value": 4517.7,
+      "change": 11.4,
+      "change_pct": "+0.25%"
+    },
+    "原油": {
+      "value": 92.29,
+      "change": 0.13,
+      "change_pct": "+0.14%"
+    },
+    "白银": {
+      "value": 75.3,
+      "change": 0.05,
+      "change_pct": "+0.06%"
+    },
+    "铜": {
+      "value": 6.57,
+      "change": 0.01,
+      "change_pct": "+0.22%"
+    }
+  },
+  "crypto": {
+    "BTC": {
+      "value": 71181.33,
+      "change": -2387.07,
+      "change_pct": "-3.24%"
+    },
+    "ETH": {
+      "value": 1996.92,
+      "change": -7.11,
+      "change_pct": "-0.35%"
+    }
+  },
+  "news_yahoo": []
+}

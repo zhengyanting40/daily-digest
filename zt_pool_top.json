@@ -1,0 +1,107 @@
+[
+  {
+    "name": "浙江黎明",
+    "price": "20.790",
+    "percent": "10",
+    "sector": "汽车零部件",
+    "fdAmount": "31519719"
+  },
+  {
+    "name": "三星新材",
+    "price": "15.510",
+    "percent": "10",
+    "sector": "家电零部件Ⅱ",
+    "fdAmount": "70648453.26"
+  },
+  {
+    "name": "亚泰集团",
+    "price": "1.650",
+    "percent": "10",
+    "sector": "综合Ⅱ",
+    "fdAmount": "7655587.5"
+  },
+  {
+    "name": "金帝股份",
+    "price": "29.770",
+    "percent": "10.014782",
+    "sector": "通用设备",
+    "fdAmount": "47280773.54"
+  },
+  {
+    "name": "中天火箭",
+    "price": "55.400",
+    "percent": "10.007943",
+    "sector": "航天装备Ⅱ",
+    "fdAmount": "91102640.8"
+  },
+  {
+    "name": "爱普股份",
+    "price": "10.670",
+    "percent": "10",
+    "sector": "化学制品",
+    "fdAmount": "74821241"
+  },
+  {
+    "name": "天安新材",
+    "price": "12.840",
+    "percent": "10.025707",
+    "sector": "家居用品",
+    "fdAmount": "28617792"
+  },
+  {
+    "name": "XD雅运股",
+    "price": "27.210",
+    "percent": "9.983832",
+    "sector": "化学制品",
+    "fdAmount": "20263287"
+  },
+  {
+    "name": "家联科技",
+    "price": "24.250",
+    "percent": "19.990104",
+    "sector": "家居用品",
+    "fdAmount": "75211787.25"
+  },
+  {
+    "name": "中大力德",
+    "price": "86.770",
+    "percent": "10.002535",
+    "sector": "通用设备",
+    "fdAmount": "36572687.3"
+  },
+  {
+    "name": "银宝山新",
+    "price": "8.830",
+    "percent": "9.96264",
+    "sector": "专用设备",
+    "fdAmount": "4184537"
+  },
+  {
+    "name": "科力尔",
+    "price": "10.880",
+    "percent": "10.010111",
+    "sector": "电机Ⅱ",
+    "fdAmount": "3681792"
+  },
+  {
+    "name": "福达股份",
+    "price": "13.450",
+    "percent": "9.97547",
+    "sector": "汽车零部件",
+    "fdAmount": "15343760"
+  },
+  {
+    "name": "东土科技",
+    "price": "21.940",
+    "percent": "20.021882",
+    "sector": "通信设备",
+    "fdAmount": "43700333.34"
+  },
+  {
+    "name": "冠龙节能",
+    "price": "18.220",
+    "percent": "20.02635",
+    "sector": "通用设备",
+    "fdAmount": "50663716.3"
+  }
+]

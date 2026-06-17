@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-06-02T00:00:00Z",
+  "source": "Yahoo Finance v8 chart API",
+  "data": [
+    {
+      "ticker": "^IRX",
+      "name": "13-Week Treasury Bill (3M)",
+      "price": 3.62,
+      "previousClose": 3.588,
+      "change": 0.032,
+      "changePercent": 0.892
+    },
+    {
+      "ticker": "^FVX",
+      "name": "5-Year Treasury Note (5Y)",
+      "price": 4.186,
+      "previousClose": 4.149,
+      "change": 0.037,
+      "changePercent": 0.892
+    },
+    {
+      "ticker": "^TNX",
+      "name": "10-Year Treasury Note (10Y)",
+      "price": 4.475,
+      "previousClose": 4.453,
+      "change": 0.022,
+      "changePercent": 0.494
+    },
+    {
+      "ticker": "^TYX",
+      "name": "30-Year Treasury Bond (30Y)",
+      "price": 4.991,
+      "previousClose": 4.993,
+      "change": -0.002,
+      "changePercent": -0.040
+    }
+  ]
+}

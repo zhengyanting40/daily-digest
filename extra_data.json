@@ -1,0 +1,77 @@
+{
+  "bond_US10Y": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "bond_US02Y": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "bond_US05Y": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "bond_US30Y": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "commodity_gold": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "commodity_oil": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "commodity_silver": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "commodity_copper": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "index_nikkei": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "index_kospi": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "index_ftse": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "index_dax": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "index_cac": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "crypto_btc": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  },
+  "crypto_eth": {
+    "name": "\";\n",
+    "price": "?",
+    "pct": "?"
+  }
+}
