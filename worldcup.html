@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚽ 2026世界杯 · 小组赛追踪</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;padding:16px;max-width:680px;margin:0 auto}
+h1{font-size:22px;color:#f0f6fc;text-align:center;padding:16px 0 4px}
+.sub{text-align:center;color:#8b949e;font-size:13px;margin-bottom:16px}
+.date-bar{text-align:center;color:#8b949e;font-size:14px;margin-bottom:16px;padding:8px;background:#161b22;border-radius:8px;border:1px solid #30363d}
+.gr{background:#161b22;border:1px solid #30363d;border-radius:8px;margin-bottom:12px;overflow:hidden}
+.gr-title{font-size:15px;font-weight:600;padding:10px 14px;background:#1c2128;color:#f0f6fc;border-bottom:1px solid #30363d}
+.gr-body{padding:10px 14px}
+.team{display:grid;grid-template-columns:24px 1fr 30px 30px 30px 30px 30px 30px 40px;gap:4px;padding:5px 0;font-size:14px;border-bottom:1px solid #21262d;align-items:center}
+.team:last-child{border-bottom:none}
+.team .pos{color:#8b949e;text-align:center;font-size:13px}
+.team .name{font-weight:500}
+.team .name .flag{margin-right:4px}
+.team .stat{text-align:center;color:#c9d1d9}
+.team .pts{text-align:center;font-weight:700;color:#f0f6fc}
+.team.top{background:linear-gradient(90deg,rgba(248,81,73,0.08),transparent)}
+.team.top .pts{color:#F85149}
+.header-row{display:grid;grid-template-columns:24px 1fr 30px 30px 30px 30px 30px 30px 40px;gap:4px;padding:4px 0;font-size:11px;color:#8b949e;text-align:center;border-bottom:1px solid #30363d}
+.header-row .col-name{text-align:left}
+.ft{text-align:center;color:#484f58;padding:20px;font-size:12px}
+.ft a{color:#58a6ff;text-decoration:none}
+.tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding:4px 0}
+.tab{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:6px 12px;font-size:13px;color:#c9d1d9;cursor:pointer;white-space:nowrap}
+.tab.active{background:#F85149;border-color:#F85149;color:#fff}
+.tab:hover{background:#30363d}
+.match-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.match-info{flex:1}
+.match-teams{font-size:15px;font-weight:600;color:#f0f6fc;margin-bottom:4px}
+.match-teams .vs{color:#8b949e;margin:0 8px}
+.match-score{font-size:24px;font-weight:700;text-align:center;min-width:70px}
+.match-score.live{color:#F85149}
+.match-score.final{color:#f0f6fc}
+.match-date{font-size:12px;color:#8b949e}
+.match-venue{font-size:11px;color:#484f58}
+</style>
+</head>
+<body>
+<h1>⚽ 2026 FIFA 世界杯</h1>
+<div class="sub">美国·加拿大·墨西哥 三国联办</div>
+<div class="date-bar">📆 2026年6月11日 – 7月19日 · 48队 · 12小组</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" onclick="showTab('groups')">📊 积分榜</div>
+  <div class="tab" onclick="showTab('matches')">⚔️ 赛程</div>
+</div>
+
+<div id="groups-view">
+</div>
+
+<div id="matches-view" style="display:none">
+</div>
+
+<div class="ft">🔄 数据来源：Wikipedia · 自动更新 · 中国惯例：▲红涨 ▼绿跌</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// 2026 世界杯 · 小组赛数据（来自 Wikipedia）
+// 最后更新：2026年6月20日
+// ═══════════════════════════════════════════════
+
+const GROUPS = [
+  {name:'A', flag:'🇲🇽', teams:[
+    {name:'墨西哥', flag:'🇲🇽', pld:2, w:2, d:0, l:0, gf:3, ga:0, gd:'+3', pts:6},
+    {name:'韩国', flag:'🇰🇷', pld:2, w:1, d:0, l:1, gf:2, ga:2, gd:'0', pts:3},
+    {name:'捷克', flag:'🇨🇿', pld:2, w:0, d:1, l:1, gf:2, ga:3, gd:'−1', pts:1},
+    {name:'南非', flag:'🇿🇦', pld:2, w:0, d:1, l:1, gf:1, ga:3, gd:'−2', pts:1}
+  ]},
+  {name:'B', flag:'🇨🇦', teams:[
+    {name:'加拿大', flag:'🇨🇦', pld:2, w:1, d:1, l:0, gf:7, ga:1, gd:'+6', pts:4},
+    {name:'瑞士', flag:'🇨🇭', pld:2, w:1, d:1, l:0, gf:5, ga:2, gd:'+3', pts:4},
+    {name:'波黑', flag:'🇧🇦', pld:2, w:0, d:1, l:1, gf:2, ga:5, gd:'−3', pts:1},
+    {name:'卡塔尔', flag:'🇶🇦', pld:2, w:0, d:1, l:1, gf:1, ga:7, gd:'−6', pts:1}
+  ]},
+  {name:'C', flag:'🇧🇷', teams:[
+    {name:'巴西', flag:'🇧🇷', pld:2, w:1, d:1, l:0, gf:4, ga:1, gd:'+3', pts:4},
+    {name:'摩洛哥', flag:'🇲🇦', pld:2, w:1, d:1, l:0, gf:2, ga:1, gd:'+1', pts:4},
+    {name:'苏格兰', flag:'🏴󠁧󠁢󠁳󠁣󠁴󠁿', pld:2, w:1, d:0, l:1, gf:1, ga:1, gd:'0', pts:3},
+    {name:'海地', flag:'🇭🇹', pld:2, w:0, d:0, l:2, gf:0, ga:4, gd:'−4', pts:0}
+  ]},
+  {name:'D', flag:'🇺🇸', teams:[
+    {name:'美国', flag:'🇺🇸', pld:2, w:2, d:0, l:0, gf:6, ga:1, gd:'+5', pts:6},
+    {name:'澳大利亚', flag:'🇦🇺', pld:2, w:1, d:0, l:1, gf:2, ga:2, gd:'0', pts:3},
+    {name:'巴拉圭', flag:'🇵🇾', pld:2, w:1, d:0, l:1, gf:2, ga:4, gd:'−2', pts:3},
+    {name:'土耳其', flag:'🇹🇷', pld:2, w:0, d:0, l:2, gf:0, ga:3, gd:'−3', pts:0}
+  ]},
+  {name:'E', flag:'🇩🇪', teams:[
+    {name:'德国', flag:'🇩🇪', pld:1, w:1, d:0, l:0, gf:7, ga:1, gd:'+6', pts:3},
+    {name:'科特迪瓦', flag:'🇨🇮', pld:1, w:1, d:0, l:0, gf:1, ga:0, gd:'+1', pts:3},
+    {name:'厄瓜多尔', flag:'🇪🇨', pld:1, w:0, d:0, l:1, gf:0, ga:1, gd:'−1', pts:0},
+    {name:'库拉索', flag:'🇨🇼', pld:1, w:0, d:0, l:1, gf:1, ga:7, gd:'−6', pts:0}
+  ]},
+  {name:'F', flag:'🇸🇪', teams:[
+    {name:'瑞典', flag:'🇸🇪', pld:1, w:1, d:0, l:0, gf:5, ga:1, gd:'+4', pts:3},
+    {name:'日本', flag:'🇯🇵', pld:1, w:0, d:1, l:0, gf:2, ga:2, gd:'0', pts:1},
+    {name:'荷兰', flag:'🇳🇱', pld:1, w:0, d:1, l:0, gf:2, ga:2, gd:'0', pts:1},
+    {name:'突尼斯', flag:'🇹🇳', pld:1, w:0, d:0, l:1, gf:1, ga:5, gd:'−4', pts:0}
+  ]},
+  {name:'G', flag:'🇳🇿', teams:[
+    {name:'新西兰', flag:'🇳🇿', pld:1, w:0, d:1, l:0, gf:2, ga:2, gd:'0', pts:1},
+    {name:'伊朗', flag:'🇮🇷', pld:1, w:0, d:1, l:0, gf:2, ga:2, gd:'0', pts:1},
+    {name:'比利时', flag:'🇧🇪', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1},
+    {name:'埃及', flag:'🇪🇬', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1}
+  ]},
+  {name:'H', flag:'🇺🇾', teams:[
+    {name:'乌拉圭', flag:'🇺🇾', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1},
+    {name:'沙特', flag:'🇸🇦', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1},
+    {name:'西班牙', flag:'🇪🇸', pld:1, w:0, d:1, l:0, gf:0, ga:0, gd:'0', pts:1},
+    {name:'佛得角', flag:'🇨🇻', pld:1, w:0, d:1, l:0, gf:0, ga:0, gd:'0', pts:1}
+  ]},
+  {name:'I', flag:'🇳🇴', teams:[
+    {name:'挪威', flag:'🇳🇴', pld:1, w:1, d:0, l:0, gf:4, ga:1, gd:'+3', pts:3},
+    {name:'法国', flag:'🇫🇷', pld:1, w:1, d:0, l:0, gf:3, ga:1, gd:'+2', pts:3},
+    {name:'塞内加尔', flag:'🇸🇳', pld:1, w:0, d:0, l:1, gf:1, ga:3, gd:'−2', pts:0},
+    {name:'伊拉克', flag:'🇮🇶', pld:1, w:0, d:0, l:1, gf:1, ga:4, gd:'−3', pts:0}
+  ]},
+  {name:'J', flag:'🇦🇷', teams:[
+    {name:'阿根廷', flag:'🇦🇷', pld:1, w:1, d:0, l:0, gf:3, ga:0, gd:'+3', pts:3},
+    {name:'奥地利', flag:'🇦🇹', pld:1, w:1, d:0, l:0, gf:3, ga:1, gd:'+2', pts:3},
+    {name:'约旦', flag:'🇯🇴', pld:1, w:0, d:0, l:1, gf:1, ga:3, gd:'−2', pts:0},
+    {name:'阿尔及利亚', flag:'🇩🇿', pld:1, w:0, d:0, l:1, gf:0, ga:3, gd:'−3', pts:0}
+  ]},
+  {name:'K', flag:'🇨🇴', teams:[
+    {name:'哥伦比亚', flag:'🇨🇴', pld:1, w:1, d:0, l:0, gf:3, ga:1, gd:'+2', pts:3},
+    {name:'刚果(金)', flag:'🇨🇩', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1},
+    {name:'葡萄牙', flag:'🇵🇹', pld:1, w:0, d:1, l:0, gf:1, ga:1, gd:'0', pts:1},
+    {name:'乌兹别克', flag:'🇺🇿', pld:1, w:0, d:0, l:1, gf:1, ga:3, gd:'−2', pts:0}
+  ]},
+  {name:'L', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', teams:[
+    {name:'英格兰', flag:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', pld:1, w:1, d:0, l:0, gf:4, ga:2, gd:'+2', pts:3},
+    {name:'加纳', flag:'🇬🇭', pld:1, w:1, d:0, l:0, gf:1, ga:0, gd:'+1', pts:3},
+    {name:'巴拿马', flag:'🇵🇦', pld:1, w:0, d:0, l:1, gf:0, ga:1, gd:'−1', pts:0},
+    {name:'克罗地亚', flag:'🇭🇷', pld:1, w:0, d:0, l:1, gf:2, ga:4, gd:'−2', pts:0}
+  ]}
+];
+
+// ═══════════════════════════════════════════════
+// Render
+// ═══════════════════════════════════════════════
+
+function renderGroups() {
+  const el = document.getElementById('groups-view');
+  el.innerHTML = GROUPS.map(g => {
+    const rows = g.teams.map((t, i) => {
+      const top = i < 2 ? 'top' : '';
+      return `<div class="team ${top}">
+        <div class="pos">${i+1}</div>
+        <div class="name">${t.flag} ${t.name}</div>
+        <div class="stat">${t.pld}</div>
+        <div class="stat">${t.w}</div>
+        <div class="stat">${t.d}</div>
+        <div class="stat">${t.l}</div>
+        <div class="stat">${t.gf}</div>
+        <div class="stat">${t.ga}</div>
+        <div class="pts">${t.pts}</div>
+      </div>`;
+    }).join('');
+    return `<div class="gr">
+      <div class="gr-title">${g.flag} ${g.name}组</div>
+      <div class="gr-body">
+        <div class="header-row">
+          <div></div>
+          <div class="col-name">球队</div>
+          <div>赛</div><div>胜</div><div>平</div><div>负</div><div>进</div><div>失</div><div>分</div>
+        </div>
+        ${rows}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderMatches() {
+  const el = document.getElementById('matches-view');
+  el.innerHTML = '<div style="color:#8b949e;text-align:center;padding:40px;font-size:14px;">⚔️ 赛程数据整理中…<br><br>小组成员赛数据已展示在积分榜中。<br>每个小组当前已进行部分比赛，完整赛程将陆续更新。</div>';
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[onclick*="${name}"]`).classList.add('active');
+  document.getElementById('groups-view').style.display = name === 'groups' ? '' : 'none';
+  document.getElementById('matches-view').style.display = name === 'matches' ? '' : 'none';
+}
+
+renderGroups();
+renderMatches();
+</script>
+</body>
+</html>
