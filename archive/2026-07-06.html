@@ -6,203 +6,205 @@
 <title>每日新闻速递 · 2026年7月6日</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;padding:16px;max-width:680px;margin:0 auto;font-size:15px;line-height:1.6}
-.header{text-align:center;padding:16px 0 12px;border-bottom:1px solid #30363d;margin-bottom:12px}
-.header h1{font-size:20px;font-weight:700;color:#f0f6fc}
-.header .date{font-size:13px;color:#8b949e;margin-top:4px}
-.section{border-left:3px solid #30363d;padding:8px 0 8px 12px;margin:12px 0}
-.section-title{font-size:16px;font-weight:700;color:#f0f6fc;margin-bottom:6px}
-.section-title .icon{margin-right:4px}
-.indices{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
-.indice{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:8px 10px;flex:1;min-width:90px}
-.indice .name{font-size:12px;color:#8b949e}
-.indice .val{font-size:17px;font-weight:700;margin:2px 0}
-.indice .chg{font-size:12px}
-.tag{display:inline-block;background:#161b22;border:1px solid #30363d;border-radius:4px;padding:2px 6px;margin:2px;font-size:12px;color:#c9d1d9}
-.tags{margin:4px 0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Helvetica Neue",sans-serif;background:#0d1117;color:#c9d1d9;padding:12px;line-height:1.6;max-width:600px;margin:0 auto}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center;border:1px solid #30363d}
+.header h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.header .sub{font-size:12px;color:#484f58}
+.section{background:#161b22;border-radius:10px;padding:12px;margin-bottom:10px;border-left:3px solid #30363d;overflow:hidden}
+.section-title{font-size:16px;font-weight:600;margin-bottom:8px;color:#e6edf3}
+.section-title .icon{margin-right:6px}
 .meta{font-size:11px;color:#484f58;margin-top:-4px;margin-bottom:8px}
-.news-item{padding:6px 0;border-bottom:1px solid #21262d}
-.news-item:last-child{border:0}
-.news-item a{color:#58a6ff;text-decoration:none;font-size:14px;line-height:1.5}
-.news-item a:hover{text-decoration:underline}
-.news-source{font-size:11px;color:#484f58;margin:8px 0 4px;font-weight:600}
-.summary-text{font-size:14px;line-height:1.8;color:#c9d1d9}
-.summary-text strong{color:#f0f6fc}
-.footer{text-align:center;padding:16px 0;color:#484f58;font-size:12px;border-top:1px solid #30363d;margin-top:16px}
+.idx-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #21262d;font-size:15px}
+.idx-row:last-child{border-bottom:none}
+.idx-name{font-weight:500}
+.idx-price{font-weight:600}
+.idx-pct{font-weight:600;width:80px;text-align:right}
 .up{color:#F85149}
 .down{color:#3FB950}
-.flat{color:#8b949e}
+.tag{display:inline-block;background:#21262d;border-radius:4px;padding:2px 8px;margin:2px;font-size:13px;white-space:nowrap}
+.tag-up{background:#2d1b1b;color:#F85149}
+.tag-down{background:#1b2d1b;color:#3FB950}
+.news-item{padding:6px 0;border-bottom:1px solid #21262d;font-size:14px}
+.news-item:last-child{border-bottom:none}
+.news-item a{color:#58a6ff;text-decoration:none}
+.news-item a:hover{text-decoration:underline}
+.news-source{display:inline-block;font-size:11px;color:#8b949e;background:#21262d;border-radius:3px;padding:1px 5px;margin-right:6px}
+.summary-text{font-size:14px;line-height:1.8;color:#c9d1d9}
+.summary-text strong{color:#e6edf3}
+.footer{text-align:center;font-size:11px;color:#484f58;padding:12px}
+@media(max-width:480px){.idx-row{font-size:14px}.section-title{font-size:15px}}
 </style>
 </head>
 <body>
 <div class="header">
 <h1>📰 每日新闻速递</h1>
-<div class="date">2026年7月6日 · 数据截止上周五(7月3日) 15:00</div>
+<div class="sub">2026年7月6日 · 周一</div>
 </div>
-
-<div class="section" style="border-color:#30363d;">
+<div class="section" style="border-color:#F85149;">
 <div class="section-title"><span class="icon">🇭🇰</span> 港股</div>
-<div class="indices">
-<div class="indice"><div class="name">恒生指数</div><div class="val up">23,516.70</div><div class="chg up">▲ +2.00%</div></div>
+<div class="idx-row"><span class="idx-name">恒生指数</span><span class="idx-price">23350.03</span><span class="idx-pct down">▼ -0.23%</span></div>
+<div class="idx-row"><span class="idx-name">国企指数</span><span class="idx-price">7699.76</span><span class="idx-pct down">▼ -0.21%</span></div>
+<div class="meta">📡 新浪财经 MCP | 🗓️ 2026-07-06 15:00</div>
 </div>
-<div class="meta">📡 新浪财经 | 🗓️ 上周五 7月3日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
+<div class="section" style="border-color:#F85149;">
 <div class="section-title"><span class="icon">🇨🇳</span> A股</div>
-<div class="indices">
-<div class="indice"><div class="name">上证指数</div><div class="val up">4,043.64</div><div class="chg up">▲ +0.37%</div></div>
-<div class="indice"><div class="name">深证成指</div><div class="val up">15,597.51</div><div class="chg up">▲ +0.64%</div></div>
-<div class="indice"><div class="name">创业板指</div><div class="val up">4,019.93</div><div class="chg up">▲ +0.07%</div></div>
+<div class="idx-row"><span class="idx-name">上证指数</span><span class="idx-price">4041.24</span><span class="idx-pct down">▼ -0.06%</span></div>
+<div class="idx-row"><span class="idx-name">深证成指</span><span class="idx-price">15416.8</span><span class="idx-pct down">▼ -1.16%</span></div>
+<div class="idx-row"><span class="idx-name">创业板指</span><span class="idx-price">3948.86</span><span class="idx-pct down">▼ -1.77%</span></div>
+<div class="idx-row"><span class="idx-name">上证50</span><span class="idx-price">2957.97</span><span class="idx-pct up">▲ +0.91%</span></div>
+<div class="idx-row"><span class="idx-name">科创50</span><span class="idx-price">1996.1</span><span class="idx-pct up">▲ +1.04%</span></div>
+<div style="margin-top:8px"><strong>领涨行业板块：</strong><br>
+<span class="tag tag-up">氨纶 +6.41%</span>
+<span class="tag tag-up">燃料电池 +6.34%</span>
+<span class="tag tag-up">生猪养殖 +4.64%</span>
+<span class="tag tag-up">动力煤 +3.88%</span>
+<span class="tag tag-up">煤炭开采 +3.52%</span>
+<span class="tag tag-up">炼油化工 +3.43%</span>
 </div>
-<div class="tags"><strong style="font-size:12px;color:#8b949e">行业板块领涨：</strong> 
-<span class="tag up">机器人 +9.12%</span>
-<span class="tag up">黄金 +8.30%</span>
-<span class="tag up">贵金属 +6.74%</span>
-<span class="tag up">航天装备Ⅲ +6.39%</span>
-<span class="tag up">航天装备Ⅱ +6.39%</span>
+<div style="margin-top:6px"><strong>领涨概念板块：</strong><br>
+<span class="tag tag-up">猪肉概念 +2.92%</span>
+<span class="tag tag-up">EDA概念 +2.88%</span>
+<span class="tag tag-up">鸡肉概念 +2.86%</span>
+<span class="tag tag-up">青蒿素 +2.85%</span>
+<span class="tag tag-up">CAR-T细胞疗法 +2.36%</span>
+<span class="tag tag-up">红利破净股 +2.08%</span>
 </div>
-<div class="tags"><strong style="font-size:12px;color:#8b949e">概念板块领涨：</strong> 
-<span class="tag up">机器人执行器 +7.53%</span>
-<span class="tag up">减速器 +6.32%</span>
-<span class="tag up">轮毂电机 +5.03%</span>
-<span class="tag up">人形机器人 +4.24%</span>
-<span class="tag up">船舶制造 +4.05%</span>
+<div style="margin-top:6px"><strong>主力资金流入前三：</strong><br>
+<span class="tag tag-up">医药生物 29.1亿</span>
+<span class="tag tag-up">化学制药 20.6亿</span>
+<span class="tag tag-up">化学制剂 19.9亿</span>
 </div>
-<div class="tags"><strong style="font-size:12px;color:#8b949e">资金流入前三：</strong> 
-<span class="tag">机器人概念 143.7亿</span>
-<span class="tag">新能源车 116.1亿</span>
-<span class="tag">人形机器人 113.8亿</span>
+<div class="meta">📡 新浪财经 MCP | 🗓️ 2026-07-06 15:00</div>
 </div>
-<div class="tags"><strong style="font-size:12px;color:#8b949e">连板热点：</strong> 
-<span class="tag">机器人概念集体爆发</span>
-<span class="tag">贵金属、航天装备强势</span>
+<div class="section" style="border-color:#F85149;">
+<div class="section-title"><span class="icon">🇺🇸</span> 美股</div>
+<div class="idx-row"><span class="idx-name">S&P 500</span><span class="idx-price">7537.43</span><span class="idx-pct up">▲ +0.72%</span></div>
+<div class="idx-row"><span class="idx-name">NASDAQ</span><span class="idx-price">26121.16</span><span class="idx-pct up">▲ +1.12%</span></div>
+<div class="idx-row"><span class="idx-name">道琼斯</span><span class="idx-price">53055.91</span><span class="idx-pct up">▲ +0.29%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-06</div>
 </div>
-<div class="meta">📡 新浪财经 + 东方财富 | 🗓️ 上周五 7月3日 15:00</div>
-</div>
-<div class="section" style="border-color:#30363d;">
-<div class="section-title"><span class="icon">🇺🇸</span> 美股（上一交易日收盘）</div>
-<div class="indices">
-<div class="indice"><div class="name">S&P 500</div><div class="val flat">7,483.24</div><div class="chg flat">▲ +0.00%</div></div>
-<div class="indice"><div class="name">Nasdaq</div><div class="val down">25,832.67</div><div class="chg down">▼ -0.80%</div></div>
-<div class="indice"><div class="name">Dow Jones</div><div class="val up">52,900.07</div><div class="chg up">▲ +1.14%</div></div>
-</div>
-<div class="meta">📡 Yahoo Finance v8 | 🗓️ 上周四 7月2日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
+<div class="section">
 <div class="section-title"><span class="icon">🌍</span> 国际股市</div>
-<div class="indices">
-<div class="indice"><div class="name">日经225</div><div class="val up">69,744.07</div><div class="chg up">▲ +1.47%</div></div>
-<div class="indice"><div class="name">KOSPI</div><div class="val up">8,088.34</div><div class="chg up">▲ +5.76%</div></div>
-<div class="indice"><div class="name">富时100</div><div class="val up">10,679.00</div><div class="chg up">▲ +0.25%</div></div>
-<div class="indice"><div class="name">斯托克50</div><div class="val up">6,412.68</div><div class="chg up">▲ +0.82%</div></div>
-<div class="indice"><div class="name">ASX 200</div><div class="val up">8,844.40</div><div class="chg up">▲ +1.37%</div></div>
-<div class="indice"><div class="name">NIFTY 50</div><div class="val up">24,270.85</div><div class="chg up">▲ +0.39%</div></div>
-<div class="indice"><div class="name">DAX</div><div class="val up">25,779.31</div><div class="chg up">▲ +0.78%</div></div>
-<div class="indice"><div class="name">CAC</div><div class="val up">8,508.07</div><div class="chg up">▲ +0.39%</div></div>
+<div class="idx-row"><span class="idx-name">日经225</span><span class="idx-price">69744.07</span><span class="idx-pct up">▲ +1.47%</span></div>
+<div class="idx-row"><span class="idx-name">KOSPI</span><span class="idx-price">8088.34</span><span class="idx-pct up">▲ +5.76%</span></div>
+<div class="idx-row"><span class="idx-name">富时100</span><span class="idx-price">10651.77</span><span class="idx-pct down">▼ -0.25%</span></div>
+<div class="idx-row"><span class="idx-name">斯托克50</span><span class="idx-price">6412.68</span><span class="idx-pct up">▲ +0.82%</span></div>
+<div class="idx-row"><span class="idx-name">DAX</span><span class="idx-price">25779.31</span><span class="idx-pct up">▲ +0.78%</span></div>
+<div class="idx-row"><span class="idx-name">CAC</span><span class="idx-price">8508.07</span><span class="idx-pct up">▲ +0.39%</span></div>
+<div class="idx-row"><span class="idx-name">ASX 200</span><span class="idx-price">8844.4</span><span class="idx-pct up">▲ +1.37%</span></div>
+<div class="idx-row"><span class="idx-name">NIFTY 50</span><span class="idx-price">24270.85</span><span class="idx-pct up">▲ +0.39%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-06</div>
 </div>
-<div class="meta">📡 Yahoo Finance v8 | 🗓️ 上周五 7月3日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
+<div class="section">
 <div class="section-title"><span class="icon">📄</span> 美债收益率</div>
-<div class="indices">
-<div class="indice"><div class="name">3个月</div><div class="val down">3.668%</div><div class="chg down">▼ -0.86%</div></div>
-<div class="indice"><div class="name">5年</div><div class="val down">4.230%</div><div class="chg down">▼ -0.05%</div></div>
-<div class="indice"><div class="name">10年</div><div class="val up">4.485%</div><div class="chg up">▲ +0.22%</div></div>
-<div class="indice"><div class="name">30年</div><div class="val up">4.985%</div><div class="chg up">▲ +0.38%</div></div>
+<div class="idx-row"><span class="idx-name">3月期</span><span class="idx-price">3.690%</span><span class="idx-pct up">▲ +0.60%</span></div>
+<div class="idx-row"><span class="idx-name">5年</span><span class="idx-price">4.211%</span><span class="idx-pct down">▼ -0.45%</span></div>
+<div class="idx-row"><span class="idx-name">10年</span><span class="idx-price">4.479%</span><span class="idx-pct down">▼ -0.13%</span></div>
+<div class="idx-row"><span class="idx-name">30年</span><span class="idx-price">4.993%</span><span class="idx-pct up">▲ +0.16%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-06</div>
 </div>
-<div class="meta">📡 Yahoo Finance v8 (CNBC核实) | 🗓️ 上周五 7月3日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
+<div class="section">
 <div class="section-title"><span class="icon">💱</span> 外汇</div>
-<div class="indices">
-<div class="indice"><div class="name">DXY美元指数</div><div class="val down">100.86</div><div class="chg down">▼ -0.52%</div></div>
-<div class="indice"><div class="name">EUR/USD</div><div class="val up">1.144</div><div class="chg up">▲ +0.15%</div></div>
-<div class="indice"><div class="name">USD/JPY</div><div class="val down">161.371</div><div class="chg down">▼ -0.05%</div></div>
-<div class="indice"><div class="name">USD/CNY</div><div class="val down">6.7702</div><div class="chg down">▼ -0.27%</div></div>
-<div class="indice"><div class="name">USD/HKD</div><div class="val flat">7.8425</div><div class="chg flat">▲ -0.00%</div></div>
+<div class="idx-row"><span class="idx-name">DXY</span><span class="idx-price">100.844</span><span class="idx-pct down">▼ -0.02%</span></div>
+<div class="idx-row"><span class="idx-name">EUR/USD</span><span class="idx-price">1.1446</span><span class="idx-pct up">▲ +0.07%</span></div>
+<div class="idx-row"><span class="idx-name">USD/JPY</span><span class="idx-price">162.037</span><span class="idx-pct up">▲ +0.36%</span></div>
+<div class="idx-row"><span class="idx-name">USD/CNY</span><span class="idx-price">6.7853</span><span class="idx-pct down">▼ -0.05%</span></div>
+<div class="idx-row"><span class="idx-name">USD/HKD</span><span class="idx-price">7.8423</span><span class="idx-pct down">▼ -0.01%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-07</div>
 </div>
-<div class="meta">📡 Yahoo Finance v8 | 🗓️ 上周五 7月3日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
+<div class="section">
 <div class="section-title"><span class="icon">🛢️</span> 商品</div>
-<div class="indices">
-<div class="indice" style="border-color:#F85149"><div class="name">黄金 ★ 醒目</div><div class="val up">$4187.30</div><div class="chg up">▲ +1.81%</div></div>
-<div class="indice"><div class="name">原油</div><div class="val up">$68.78</div><div class="chg up">▲ +0.13%</div></div>
-<div class="indice"><div class="name">白银 ★ 醒目</div><div class="val up">$62.81</div><div class="chg up">▲ +3.58%</div></div>
-<div class="indice"><div class="name">铜</div><div class="val up">$6.22</div><div class="chg up">▲ +1.79%</div></div>
+<div class="idx-row"><span class="idx-name">黄金</span><span class="idx-price">4177.9</span><span class="idx-pct up">▲ +1.59%</span></div>
+<div class="idx-row"><span class="idx-name">原油</span><span class="idx-price">68.68</span><span class="idx-pct down">▼ -0.01%</span></div>
+<div class="idx-row"><span class="idx-name">白银</span><span class="idx-price">62.52</span><span class="idx-pct up">▲ +3.10%</span></div>
+<div class="idx-row"><span class="idx-name">铜</span><span class="idx-price">6.25</span><span class="idx-pct up">▲ +2.23%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-06</div>
 </div>
-<div class="meta">📡 Yahoo Finance v8 | 🗓️ 上周五 7月3日</div>
-</div>
-<div class="section" style="border-color:#30363d;">
-<div class="section-title"><span class="icon">Ƀ</span> 加密货币</div>
-<div class="indices">
-<div class="indice"><div class="name">BTC</div><div class="val down">$62,980.31</div><div class="chg down">▼ -0.17%</div></div>
-<div class="indice"><div class="name">ETH</div><div class="val up">$1,783.49</div><div class="chg up">▲ +0.25%</div></div>
-</div>
-<div class="meta">📡 Yahoo Finance v8 | 🗓️ 上周五 7月3日</div>
+<div class="section">
+<div class="section-title"><span class="icon">₿</span> 加密货币</div>
+<div class="idx-row"><span class="idx-name">BTC</span><span class="idx-price">$64,258.60</span><span class="idx-pct up">▲ +1.12%</span></div>
+<div class="idx-row"><span class="idx-name">ETH</span><span class="idx-price">$1,811.00</span><span class="idx-pct up">▲ +1.57%</span></div>
+<div class="meta">📡 Yahoo Finance v8 | 🗓️ 2026-07-06</div>
 </div>
 <div class="section" style="border-color:#30363d;">
 <div class="section-title"><span class="icon">📰</span> 要闻</div>
-<div class="news-source">📅 财新网</div>
-<div class="news-item"><a href="https://finance.caixin.com/2026-07-05/102461052.html" target="_blank" rel="noopener">BIS畅想下一代货币体系 建议将代币化技术融入现行体系</a></div>
-<div class="news-item"><a href="https://photos.caixin.com/2026-07-05/102461028.html" target="_blank" rel="noopener">热浪叠加强雷暴 美国独立250周年庆典中断数小时后深夜重启</a></div>
-<div class="news-item"><a href="https://finance.caixin.com/2026-07-04/102460980.html" target="_blank" rel="noopener">再融资规则全面调整 便利公司、终结套利</a></div>
-<div class="news-item"><a href="https://finance.caixin.com/2026-07-04/102460968.html" target="_blank" rel="noopener">下周一A股交易制度生变：ST股涨跌幅扩大至10%、盘后增加交易时段</a></div>
-<div class="news-item"><a href="https://finance.caixin.com/2026-07-04/102460947.html" target="_blank" rel="noopener">中融信托因资不抵债获准破产清算 向中植集团申报多少债权？</a></div>
-<div class="news-item"><a href="https://photos.caixin.com/2026-07-04/102460936.html" target="_blank" rel="noopener">一周天下｜委内瑞拉强震已致2645人死亡、伊朗为哈梅内伊举行国葬</a></div>
-<div class="news-item"><a href="https://international.caixin.com/2026-07-04/102460924.html" target="_blank" rel="noopener">中欧贸易磋商机制启动之际 欧洲外交官呼吁贸易再平衡</a></div>
-<div class="news-item"><a href="https://finance.caixin.com/2026-07-04/102460919.html" target="_blank" rel="noopener">首份券商中期业绩预告出炉 国泰海通上半年净赚逾200亿元</a></div>
-<div class="news-source">📅 人民网</div>
+<div style="background:#1a1a2e;border-radius:6px;padding:8px;margin-bottom:8px;">
+<div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:4px;">▶ 财新网</div>
+<div class="news-item"><a href="https://www.caixin.com/2026-07-06/102461482.html" target="_blank" rel="noopener">美团大模型LongCat-2.0开源 国产芯片宣布完成推理适配</a></div>
+<div class="news-item"><a href="https://china.caixin.com/2026-07-06/102461474.html" target="_blank" rel="noopener">“死立执”官员名单再“+1” 南京一厅官30年受贿超22亿元</a></div>
+<div class="news-item"><a href="https://economy.caixin.com/2026-07-06/102461470.html" target="_blank" rel="noopener">广西南宁虚增财政收入被指政绩观偏差 最多一宗土地循环空转18次</a></div>
+<div class="news-item"><a href="https://www.caixin.com/2026-07-06/102461435.html" target="_blank" rel="noopener">夜读精选｜腾讯发布混元3大模型正式版 元宝接入并上线免费Agent功能</a></div>
+<div class="news-item"><a href="https://international.caixin.com/2026-07-06/102461431.html" target="_blank" rel="noopener">人物｜女承父业的秘鲁新总统藤森庆子：能否弥合撕裂国度</a></div>
+<div class="news-item"><a href="https://www.caixin.com/2026-07-06/102461425.html" target="_blank" rel="noopener">腾讯发布混元3大模型正式版 元宝接入并上线免费Agent功能</a></div>
+<div class="news-item"><a href="https://photos.caixin.com/2026-07-06/102461386.html" target="_blank" rel="noopener">台风“美莎克”引发广西特大洪灾 多处水库出现漫顶及缺口</a></div>
+<div class="news-item"><a href="https://opinion.caixin.com/2026-07-06/102461353.html" target="_blank" rel="noopener">与K共舞：K型经济的表现、成因与演化</a></div>
+<div class="news-item"><a href="https://opinion.caixin.com/2026-07-06/102461247.html" target="_blank" rel="noopener">彭文生：关于规模经济与双循环的几点思考</a></div>
+<div class="news-item"><a href="https://finance.caixin.com/2026-07-06/102461213.html" target="_blank" rel="noopener">商业航天概念持续爆火 银行如何掘金？</a></div>
+</div>
+<div style="background:#16213e;border-radius:6px;padding:8px;margin-bottom:8px;">
+<div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:4px;">▶ 人民网</div>
 <div class="news-item"><a href="http://opinion.people.com.cn/n1/2026/0702/c461529-40751863.html" target="_blank" rel="noopener">人民日报评论员：学习功勋模范，擦亮精神标识</a></div>
-<div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0702/c461001-40751859.html" target="_blank" rel="noopener">中共中央关于授予&quot;七一勋章&quot;的决定</a></div>
+<div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0702/c461001-40751859.html" target="_blank" rel="noopener">中共中央关于授予"七一勋章"的决定</a></div>
 <div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0702/c461001-40751860.html" target="_blank" rel="noopener">中共中央关于表彰全国优秀共产党员、全国优秀党务工作者和全国先进基层党组织的决定</a></div>
 <div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0702/c461001-40751862.html" target="_blank" rel="noopener">荣耀映初心 忠诚铸丰碑</a></div>
 <div class="news-item"><a href="http://pic.people.com.cn/n1/2026/0701/c426981-40751813.html" target="_blank" rel="noopener">庆祝中国共产党成立105周年大会在京隆重举行</a></div>
 <div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0701/c461001-40751593.html" target="_blank" rel="noopener">庆祝中国共产党成立105周年大会隆重举行</a></div>
-<div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0701/c461001-40751614.html" target="_blank" rel="noopener">“七一勋章”获得者</a></div>
 <div class="news-item"><a href="https://cpc.people.com.cn/n1/2026/0702/c164113-40752202.html" target="_blank" rel="noopener">追光的你|总书记向他们颁授勋章</a></div>
-<div class="news-source">📅 东方财富</div>
-<div class="news-item"><a href="http://same.eastmoney.com/c?z=eastmoney&amp;la=0&amp;si=1&amp;ci=348&amp;cg=3&amp;c=9&amp;or=5329&amp;l=18063&amp;bg=18065&amp;b=20707&amp;u=https%3A%2F%2Ffinance.eastmoney.com%2Fa%2F202606263784475925.html" target="_blank" rel="noopener">广发银行深耕广东制造业</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607033792527516.html" target="_blank" rel="noopener">三星光刻技术引入量子</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607033792553335.html" target="_blank" rel="noopener">半导体涨价潮能持续多久？</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607043794144125.html" target="_blank" rel="noopener">三星第三季DRAM拟提价20%</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607033792593511.html" target="_blank" rel="noopener">扎克伯格：AI智能体开发速度不及预期</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607023792300438.html" target="_blank" rel="noopener">算力过剩 还是过度恐慌？</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607023792266914.html" target="_blank" rel="noopener">美国6月非农就业仅增5.7万远逊预期</a></div>
-<div class="news-item"><a href="https://finance.eastmoney.com/a/202607033792595483.html" target="_blank" rel="noopener">特朗普谈非农“爆冷”：沃什必须做他该干的事</a></div>
-<div class="news-source">📅 FT中文网</div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110229" target="_blank" rel="noopener">德国的经济困境究竟因何而起？</a></div>
+<div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0702/c461001-40752217.html" target="_blank" rel="noopener">"在新征程上跑好历史接力赛",总书记这样勉励青年</a></div>
+<div class="news-item"><a href="http://opinion.people.com.cn/n1/2026/0702/c461529-40751849.html" target="_blank" rel="noopener">奋进新征程、建功新时代，奋力创造新的历史辉煌</a></div>
+<div class="news-item"><a href="http://opinion.people.com.cn/n1/2026/0702/c461530-40751876.html" target="_blank" rel="noopener">理论|百年大党初心如磐 民族复兴势不可挡</a></div>
+</div>
+<div style="background:#1a1a2e;border-radius:6px;padding:8px;margin-bottom:8px;">
+<div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:4px;">▶ 东方财富</div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607053794329282.html" target="_blank" rel="noopener">AI巨头鸿海营收激增超52%</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607053794302062.html" target="_blank" rel="noopener">人形机器人“真场景”竞速</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794390458.html" target="_blank" rel="noopener">三星Q2营利料狂飙17倍</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794375980.html" target="_blank" rel="noopener">今起A股交易规则重要调整</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607053794324075.html" target="_blank" rel="noopener">沪深主板ST、*ST股票涨跌幅调整至10%</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794385185.html" target="_blank" rel="noopener">A股新规今落地！券商提醒</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607053794313672.html" target="_blank" rel="noopener">十大券商：仍处重要做多窗口期</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794377173.html" target="_blank" rel="noopener">IPO周报｜本周2新股申购</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794386525.html" target="_blank" rel="noopener">除AI还有谁？私募下半年配置方向曝光</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607063794378137.html" target="_blank" rel="noopener">机构看好存储高景气周期(附股)</a></div>
+</div>
+<div style="background:#16213e;border-radius:6px;padding:8px;margin-bottom:8px;">
+<div style="font-size:13px;font-weight:600;color:#8b949e;margin-bottom:4px;">▶ FT中文网</div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110226" target="_blank" rel="noopener">特朗普2.0内政断想</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110199" target="_blank" rel="noopener">3D打印和IP方如何从“猫鼠游戏”走向双赢</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110214" target="_blank" rel="noopener">美加墨世界杯札记之四：摩洛哥的“2030野望”与“梅西-C罗阶级论”</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110222" target="_blank" rel="noopener">销售停滞输掉官司 海伦司急换总裁冀逆转胜</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001109785" target="_blank" rel="noopener">“比特币化”的博雅互动 Web3豪赌仍待验证</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110164" target="_blank" rel="noopener">全球资本市场盛宴，为何独缺港股？</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110185" target="_blank" rel="noopener">41℃高温，治好了德国人的“恐风症”</a></div>
 <div class="news-item"><a href="https://www.ftchinese.com/story/001110228" target="_blank" rel="noopener">机器爱人：当我们开始拥抱“弗兰肯斯坦”</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110227" target="_blank" rel="noopener">美国250年：根基为何？</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110224" target="_blank" rel="noopener">美国独立250年之后——中兴还是崩殂？</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110213" target="_blank" rel="noopener">发散时代2.0下的“大风流创新”</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110225" target="_blank" rel="noopener">工党党员的选票究竟意味着多大权力？</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110217" target="_blank" rel="noopener">美国6月新增就业岗位5.7万个，逊于华尔街预期</a></div>
-<div class="news-item"><a href="https://www.ftchinese.com/story/001110218" target="_blank" rel="noopener">特斯拉二季度销量跃升25%，高油价提振欧洲需求</a></div>
-<div class="meta">📡 财新网 / 人民网 / 东方财富 / FT中文网 | 🗓️ 2026-07-05 肃李日提交</div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110230" target="_blank" rel="noopener">韩流如何席卷全球股市？</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110202" target="_blank" rel="noopener">回购短暂推升股价 迅雷预告未来增速放缓</a></div>
+</div>
 </div>
 <div class="section" style="border-color:#30363d;">
 <div class="section-title"><span class="icon">📋</span> 今日总结</div>
 <div class="summary-text">
 <strong>🌏 市场总览</strong><br>
-全球股市分化：A股上证+0.37%小幅上升，恒指+2.00%收涨；美标普+0.00%--，纳指调整显著；亚太市场普涨（日经+1.47%、KOSPI+5.76%），欧洲稳中有升（斯托克50+0.82%）。<br><br>
-汇市：美元指数-0.52%，美元跌；人民币持稳于6.7702（升值0.27%）。
-债市：美债收益率10年期+0.22%上升，报价4.485%，30年期突破4.985%。
+A股上证指数微跌0.06%，深证成指-1.16%、创业板指-1.77%显著回调；
+恒指微跌0.23%；
+美股三大指数全线反弹（标普+0.72%、纳指+1.12%），
+亚太市场普涨（日经+1.47%、KOSPI+5.76%）。
 <br><br>
 <strong>🔥 A股热点</strong><br>
-行业板块：机器人、黄金、贵金属领涨；
-概念板块：机器人执行器、减速器、轮毂电机爆发。
-<br>
-主力资金流入前三：机器人概念、新能源车、人形机器人。
+行业板块：氨纶(+6.41%)、燃料电池(+6.34%)、生猪养殖(+4.64%)领涨；
+概念板块：猪肉概念(+2.92%)、EDA概念(+2.88%)、鸡肉概念(+2.86%)。
+主力资金流入：医药生物(29.1亿)、化学制药(20.6亿)、化学制剂(19.9亿)。
 <br><br>
 <strong>📌 要闻聚焦</strong><br>
-• BIS畅想下一代货币体系 建议将代币化技术融入现行体系<br>• 热浪叠加强雷暴 美国独立250周年庆典中断数小时后深夜重启<br>• 再融资规则全面调整 便利公司、终结套利<br>• 下周一A股交易制度生变：ST股涨跌幅扩大至10%、盘后增加交易时段<br>• 中融信托因资不抵债获准破产清算 向中植集团申报多少债权？<br>• 广发银行深耕广东制造业<br>• 三星光刻技术引入量子<br>• 半导体涨价潮能持续多久？
-<br>
-</div>
-</div>
+• 美团大模型LongCat-2.0开源 国产芯片宣布完成推理适配<br>
+• “死立执”官员名单再“+1” 南京一厅官30年受贿超22亿元<br>
+• AI巨头鸿海营收激增超52%<br>
+• 人形机器人“真场景”竞速<br>
+• 特朗普2.0内政断想<br>
+• 3D打印和IP方如何从“猫鼠游戏”走向双赢<br>
+</div></div>
 <div class="footer">
-数据来源：新浪财经 MCP / Yahoo Finance / 东方财富 / 财新网 / 人民网 / FT中文网
-<br>版权所有 &copy; 2026 Hermes Agent Daily Digest
+数据来源：新浪财经 MCP · Yahoo Finance · 东方财富 | 时间：2026-07-06 15:00
 </div>
 </body>
 </html>
