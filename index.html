@@ -2,117 +2,296 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>&#x6bcf;&#x65e5;&#x65b0;&#x95fb;&#x901f;&#x9012; - 2026&#x5e74;7&#x6708;19&#x65e5;</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日新闻速递 · 2026年7月17日</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC",sans-serif;padding:12px;padding-bottom:40px;max-width:100%!important;width:auto!important}
-.header{text-align:center;padding:16px 0 8px}
-.header h1{font-size:20px;font-weight:700;color:#e6edf3;letter-spacing:1px}
-.header .date{font-size:13px;color:#8b949e;margin-top:4px}
-.header .note{font-size:11px;color:#484f58;margin-top:2px}
-.section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;margin-bottom:10px}
-.section-title{font-size:16px;font-weight:600;color:#e6edf3;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #21262d}
-.ni{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #21262d;font-size:14px}
-.ni:last-child{border-bottom:none}
-.nn{color:#8b949e;flex:1}
-.nv{color:#e6edf3;font-weight:600;margin-left:8px;min-width:70px;text-align:right}
-.nv.up{color:#F85149!important}
-.nv.down{color:#3FB950!important}
-.fl{display:flex;gap:6px;flex-wrap:wrap}
-.tag{background:#21262d;color:#c9d1d9;padding:2px 8px;border-radius:4px;font-size:12px}
-.tag .up{color:#F85149!important}
-.tag .down{color:#3FB950!important}
-.news-item{padding:6px 0;border-bottom:1px solid #21262d;font-size:13px;line-height:1.5}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0d1117;color:#c9d1d9;max-width:800px;margin:0 auto;padding:16px}
+.header{text-align:center;padding:20px 0;border-bottom:1px solid #30363d;margin-bottom:16px}
+.header h1{font-size:24px;margin:0;color:#e6edf3}
+.header .date{font-size:14px;color:#8b949e;margin-top:4px}
+.section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:16px;margin-bottom:12px}
+.section-title{font-size:18px;font-weight:600;color:#e6edf3;margin-bottom:10px}
+.section-title .icon{font-size:20px;margin-right:6px}
+.index-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #21262d}
+.index-row:last-child{border-bottom:none}
+.index-name{font-size:15px;color:#c9d1d9}
+.index-price{font-size:16px;font-weight:600;color:#e6edf3}
+.index-pct{font-size:15px;font-weight:600;min-width:80px;text-align:right}
+.sector-item{display:inline-block;background:#21262d;border-radius:4px;padding:2px 8px;margin:2px 4px;font-size:13px;color:#c9d1d9}
+.sector-item .pct{font-weight:600}
+.tag{display:inline-block;background:#1c2333;border-left:3px solid #F85149;padding:3px 8px;margin:2px 4px;font-size:13px;border-radius:0 4px 4px 0}
+.stock-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #21262d;font-size:14px}
+.stock-row:last-child{border-bottom:none}
+.news-item{padding:6px 0;border-bottom:1px solid #21262d}
 .news-item:last-child{border-bottom:none}
-.news-item a{color:#58a6ff;text-decoration:none}
-.news-item a:hover{text-decoration:underline}
-.news-source{font-size:11px;color:#484f58;margin-bottom:4px}
-.meta{font-size:11px;color:#484f58;margin-top:-4px;margin-bottom:6px}
-.summary{font-size:14px;line-height:1.8;color:#c9d1d9}
-.summary strong{color:#e6edf3}
-.ni-small{font-size:12px;padding:3px 0}
-.ni-small .nv{font-size:12px;min-width:50px}
-.flex-row{display:flex;flex-wrap:wrap;gap:4px}
+.news-item a{color:#c9d1d9;text-decoration:none;font-size:14px;line-height:1.5}
+.news-item a:hover{color:#58a6ff}
+.meta{font-size:11px;color:#484f58;margin-top:-6px;margin-bottom:8px}
+.summary-text{font-size:14px;line-height:1.8;color:#c9d1d9}
+.summary-text strong{color:#e6edf3}
+.footer{text-align:center;color:#484f58;font-size:12px;padding:16px 0;border-top:1px solid #30363d;margin-top:16px}
 </style>
 </head>
 <body>
 <div class="header">
-<h1>&#x1f4f0; &#x6bcf;&#x65e5;&#x65b0;&#x95fb;&#x901f;&#x9012;</h1>
-<div class="date">2026&#x5e74;7&#x6708;19&#x65e5; &#x65e9;&#x4e0a;6:01</div>
-<div class="note">(&#x4e0a;&#x5468;&#x672b;&#x4ea4;&#x6613;&#x65e5;&#x6570;&#x636e;-&#x4e0a;&#x5468;&#x4e94;7&#x6708;17&#x65e5;)</div>
+<h1>📰 每日新闻速递</h1>
+<div class="date">🗓 2026年7月17日 | 上一交易日收盘</div>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f1ed;&#x1f1f0; &#x6e2f;&#x80a1;&#x5e02;&#x573a;</div>
-<div class="ni"><span class="nn">恒生指数</span><span class="nv">24562.24</span><span class="nv down">▼ -1.78%</span></div>
-<div class="meta">&#x1f4e1; 新浪财经 | &#x1f5d3;&ufe0f; 2026-07-17 16:00 BST</div>
+<div class="section">
+<div class="section-title"><span class="icon">🇭🇰</span> 港股</div>
+<div class="index-row">
+<span class="index-name">恒生指数</span>
+<span class="index-price">24562.24</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 1.78%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f1e8;&#x1f1f3; A&#x80a1;</div>
-<div class="ni"><span class="nn">上证指数</span><span class="nv">3764.15</span><span class="nv down">▼ -3.05%</span></div>
-<div class="ni"><span class="nn">深证成指</span><span class="nv">13706.88</span><span class="nv down">▼ -5.40%</span></div>
-<div class="ni"><span class="nn">创业板指</span><span class="nv">3428.63</span><span class="nv down">▼ -7.15%</span></div>
-<div class="meta">&#x1f4e1; 东方财富 / 新浪财经 | &#x1f5d3;&ufe0f; 2026-07-17 15:00 CST</div>
+<div style="margin-top:8px">
+<span style="font-size:13px;color:#8b949e">领涨板块：</span>
+<span style="font-size:13px;color:#8b949e">港股板块数据暂缺</span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f1fa;&#x1f1f8; &#x7f8e;&#x80a1;</div>
-<div class="ni"><span class="nn">S&P 500</span><span class="nv">7457.69</span><span class="nv down">▼ -1.01%</span></div>
-<div class="ni"><span class="nn">NASDAQ</span><span class="nv">25520.24</span><span class="nv down">▼ -1.40%</span></div>
-<div class="ni"><span class="nn">道琼斯</span><span class="nv">52146.42</span><span class="nv down">▼ -0.77%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div class="meta">📡 新浪财经 实时行情 | 🗓 2026/07/17</div>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f30d; &#x56fd;&#x9645;&#x80a1;&#x5e02;</div>
-<div class="ni"><span class="nn">日经225</span><span class="nv">64141.12</span><span class="nv down">▼ -4.03%</span></div>
-<div class="ni"><span class="nn">KOSPI</span><span class="nv">6820.6</span><span class="nv down">▼ -6.37%</span></div>
-<div class="ni"><span class="nn">富时100</span><span class="nv">10600.4</span><span class="nv up">▲ +0.27%</span></div>
-<div class="ni"><span class="nn">斯托克50</span><span class="nv">6230.87</span><span class="nv down">▼ -0.84%</span></div>
-<div class="ni"><span class="nn">ASX 200</span><span class="nv">8796.7</span><span class="nv down">▼ -0.50%</span></div>
-<div class="ni"><span class="nn">NIFTY 50</span><span class="nv">24334.3</span><span class="nv up">▲ +1.09%</span></div>
-<div class="ni"><span class="nn">DAX</span><span class="nv">24830.98</span><span class="nv down">▼ -0.34%</span></div>
-<div class="ni"><span class="nn">CAC 40</span><span class="nv">8338.81</span><span class="nv down">▼ -0.47%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div class="section">
+<div class="section-title"><span class="icon">🇨🇳</span> A股</div>
+<div class="index-row">
+<span class="index-name">上证指数</span>
+<span class="index-price">3764.15</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 3.05%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f4d6; &#x7f8e;&#x503a;&#x6536;&#x76ca;&#x7387;</div>
-<div class="ni ni-small"><span class="nn">3月</span><span class="nv">3.71%</span><span class="nv up">▲ +0.27%</span></div>
-<div class="ni ni-small"><span class="nn">5年</span><span class="nv">4.27%</span><span class="nv down">▼ -0.21%</span></div>
-<div class="ni ni-small"><span class="nn">10年</span><span class="nv">4.54%</span><span class="nv down">▼ -0.61%</span></div>
-<div class="ni ni-small"><span class="nn">30年</span><span class="nv">5.06%</span><span class="nv down">▼ -0.67%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div class="index-row">
+<span class="index-name">深证成指</span>
+<span class="index-price">13706.88</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 5.40%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f4b1; &#x5916;&#x6c47;</div>
-<div class="ni ni-small" style="font-weight:600"><span class="nn">DXY</span><span class="nv">100.75</span><span class="nv up">▲ +0.02%</span></div>
-<div class="ni ni-small"><span class="nn">EUR/USD</span><span class="nv">1.14</span><span class="nv up">▲ +0.01%</span></div>
-<div class="ni ni-small"><span class="nn">USD/JPY</span><span class="nv">162.35</span><span class="nv down">▼ -0.01%</span></div>
-<div class="ni ni-small"><span class="nn">USD/CNY</span><span class="nv">6.77</span><span class="nv down">▼ -0.07%</span></div>
-<div class="ni ni-small"><span class="nn">USD/HKD</span><span class="nv">7.84</span><span class="nv down">▼ -0.01%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div class="index-row">
+<span class="index-name">创业板指</span>
+<span class="index-price">3428.63</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 7.15%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f6e2;&#ufe0f; &#x5546;&#x54c1;</div>
-<div class="ni ni-small"><span class="nn">&#11088; 黄金</span><span class="nv">$4012.7</span><span class="nv up">▲ +0.68%</span></div>
-<div class="ni ni-small"><span class="nn">&#11088; 原油</span><span class="nv">$82.49</span><span class="nv up">▲ +4.48%</span></div>
-<div class="ni ni-small"><span class="nn"> 白银</span><span class="nv">$56.04</span><span class="nv up">▲ +0.25%</span></div>
-<div class="ni ni-small"><span class="nn"> 铜</span><span class="nv">$6.22</span><span class="nv down">▼ -1.21%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div style="margin-top:10px">
+<span style="font-size:13px;color:#8b949e">行业板块领涨：</span><br>
+<span class="sector-item">会展服务 <span class="pct" style="color:#F85149">+3.88%</span></span><span class="sector-item">水力发电 <span class="pct" style="color:#F85149">+3.28%</span></span><span class="sector-item">电能综合服务 <span class="pct" style="color:#F85149">+2.84%</span></span><span class="sector-item">国有大型银行Ⅲ <span class="pct" style="color:#F85149">+2.00%</span></span><span class="sector-item">火力发电 <span class="pct" style="color:#F85149">+1.74%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">&#x1f4b0; &#x52a0;&#x5bc6;&#x8d27;&#x5e01;</div>
-<div class="ni ni-small"><span class="nn">&#x20bf; BTC</span><span class="nv">$64,739.58</span><span class="nv up">▲ +1.31%</span></div>
-<div class="ni ni-small"><span class="nn">&#x20bf; ETH</span><span class="nv">$1,861.50</span><span class="nv up">▲ +1.11%</span></div>
-<div class="meta">&#x1f4e1; Yahoo Finance v8 API | &#x1f5d3;&ufe0f; 2026-07-17</div>
+<div style="margin-top:6px">
+<span style="font-size:13px;color:#8b949e">概念板块：</span><br>
+<span class="sector-item">昨日打二板以上表现 <span class="pct" style="color:#F85149">+11.91%</span></span><span class="sector-item">昨日连板_含一字 <span class="pct" style="color:#F85149">+3.44%</span></span><span class="sector-item">昨日连板 <span class="pct" style="color:#F85149">+2.71%</span></span><span class="sector-item">超超临界发电 <span class="pct" style="color:#3FB950">-0.21%</span></span><span class="sector-item">红利破净股 <span class="pct" style="color:#3FB950">-0.30%</span></span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title"> </div>
-<div class="news-source">&#x1f4dd; 财新网 caixin.com</div><div class="news-item">&#x2022; <a href="https://www.12377.cn/" target="_blank">网上有害信息举报专区</a></div><div class="news-item">&#x2022; <a href="https://www.caixin.com/2026-07-18/102465859.html" target="_blank">商汤计划年内发射首批算力卫星 拟建5个万卡以上国产集群</a></div><div class="news-item">&#x2022; <a href="https://photos.caixin.com/2026-07-18/102465756.html" target="_blank">显影｜家庭式养老：个性化陪伴与专业照护如何兼得</a></div><div class="news-item">&#x2022; <a href="https://www.caixin.com/2026-07-18/102465751.html" target="_blank">腾讯云吴运声：企业级智能体需求翻倍增长 落地难在打通企业数据与流程</a></div><div class="news-item">&#x2022; <a href="https://photos.caixin.com/2026-07-18/102465738.html" target="_blank">一周天下｜重庆彭水山体崩塌致8死34失联、台风“巴威”北上致东北暴雨</a></div><div class="news-item">&#x2022; <a href="https://companies.caixin.com/2026-07-18/102465733.html" target="_blank">“新三样”出口上半年增五成 劳动密集型产品出口回暖｜贸易月报</a></div><div class="news-item">&#x2022; <a href="https://www.caixin.com/2026-07-18/102465728.html" target="_blank">超节点迈向光互联 壁仞发布下一代1024卡NPO架构超节点</a></div><div class="news-item">&#x2022; <a href="https://china.caixin.com/2026-07-18/102465707.html" target="_blank">人事观察｜卸任公安部部长助理后 55岁谭权重庆履新</a></div><div class="news-source">&#x1f4dd; 人民网 people.com.cn</div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0718/c1004-40763285.html" target="_blank">财米油盐｜“全球最硬核健身房”，你来吗？</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0715/c1004-40761100.html" target="_blank">10组数据速览2026中国经济半年报</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0716/c1004-40761971.html" target="_blank">半年报透视产业转型升级新动能</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0715/c1004-40761298.html" target="_blank">新动能贡献超四成增长</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0717/c1004-40762233.html" target="_blank">开局之年，中国经济坚韧向前蓬勃向好</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0718/c1004-40763061.html" target="_blank">宏观政策靠前发力应对有力</a></div><div class="news-item">&#x2022; <a href="http://finance.people.com.cn/n1/2026/0717/c1004-40762309.html" target="_blank">金融对实体经济支持稳固</a></div><div class="news-item">&#x2022; <a href="http://politics.people.com.cn/n1/2026/0718/c461001-40763340.html" target="_blank">直面时代之问,习近平提出4点意见</a></div><div class="news-source">&#x1f4dd; 东方财富 eastmoney.com</div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607163809344767.html" target="_blank">长鑫科技中一签盈利几何</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607163809349814.html" target="_blank">五粮液等多家A股公司分红</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607173809432636.html" target="_blank">4家头部钨企上半年业绩预喜</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607183811432330.html" target="_blank">一大批沪市公司公告回购增持！</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607173809674436.html" target="_blank">人工智能如何重塑大城市治理？</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607173809684398.html" target="_blank">全球人工智能治理期盼中国时刻</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607173809629012.html" target="_blank">DeepSeek最新估值曝光(名单)</a></div><div class="news-item">&#x2022; <a href="https://finance.eastmoney.com/a/202607173809485292.html" target="_blank">超3500亿元！DeepSeek估值曝光</a></div><div class="news-source">&#x1f4dd; FT中文网 ftchinese.com</div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110354" target="_blank">人工智能大会开幕，中国设立人工智能治理新机构</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110353" target="_blank">中期选举临近，特朗普重提大选干预论</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110352" target="_blank">快递业告别价格战？“反内卷”成效待利润验证</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110349" target="_blank">欧洲野火肆虐 法国过火面积创历史新高</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110351" target="_blank">工业革命催生了工会，1300万第一代移民又将催生什么？</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110334" target="_blank">支持冒险或放大浪费：地方引导基金该怎样投向未来产业？</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110335" target="_blank">算力经济性的中国命题</a></div><div class="news-item">&#x2022; <a href="https://www.ftchinese.com/story/001110340" target="_blank">从美俄军事实践看现代非对称战争的局限性</a></div>
-
+<div style="margin-top:6px">
+<span style="font-size:13px;color:#8b949e">主力资金流入前三：</span><br>
+<span class="tag">麒麟电池 3.3亿</span><span class="tag">数字货币 2.4亿</span><span class="tag">超超临界发电 1.1亿</span>
 </div>
-<div class="section" style="border-color:#30363d">
-<div class="section-title">📋 今日总结</div>
-<div class="summary"><strong>🌏 市场总览</strong><br>A股上周五骤跌：上证-3.05%（3764.15点）、创业板-7.15%，恒指-1.78%；美股三大指数全线下跌（标普-1.01%），日经-4.03%，KOSPI-6.37%少见大跌。<br><br><strong>🔥 A股热点</strong><br>。<br><br><strong>📌 要闻聚焦</strong><br>• 算力经济性的中国命题<br>• 长鑫科技中一签盈利可观<br>• 茅台再度上调零售指导价至1639元/瓶，多家A股公司分红<br>• 人工智能大会开幕，中国设立AI治理新机构，DeepSeek晒值超3500亿<br>• 特朗普重提大选干预论<br>• 快递业反内卷成效待验证<br>• 欧洲野火覆虐耒法当面积创历史新高<br></div>
-
+<div class="meta">📡 新浪财经 实时行情 + 东方财富数据 | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">🇺🇸</span> 美股（上一交易日收盘）</div>
+<div class="index-row">
+<span class="index-name">S&P 500</span>
+<span class="index-price">7457.69</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 1.01%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">Nasdaq</span>
+<span class="index-price">25520.24</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 1.40%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">Dow Jones</span>
+<span class="index-price">52146.42</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.77%</span></span>
+</div>
+<div style="margin-top:8px">
+<span style="font-size:13px;color:#8b949e">美股板块数据暂缺</span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">🌍</span> 国际股市</div>
+<div class="index-row">
+<span class="index-name">日经225</span>
+<span class="index-price">64141.12</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 4.03%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">KOSPI</span>
+<span class="index-price">6820.60</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 6.37%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">富时100</span>
+<span class="index-price">10600.40</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.27%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">斯托克50</span>
+<span class="index-price">6230.87</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.84%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">ASX 200</span>
+<span class="index-price">8796.70</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.50%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">NIFTY 50</span>
+<span class="index-price">24334.30</span>
+<span class="index-pct"><span style="color:#F85149">▲ 1.09%</span></span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">📄</span> 美債收益率</div>
+<div class="index-row">
+<span class="index-name">3月期</span>
+<span class="index-price">3.71%</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.35%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">5年期</span>
+<span class="index-price">4.27%</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.28%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">10年期</span>
+<span class="index-price">4.54%</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.63%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">30年期</span>
+<span class="index-price">5.06%</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.75%</span></span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">💱</span> 外汇</div>
+<div class="index-row">
+<span class="index-name">DXY</span>
+<span class="index-price">100.8400</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.09%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">EUR/USD</span>
+<span class="index-price">1.1400</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.39%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">USD/JPY</span>
+<span class="index-price">162.5100</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.08%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">USD/CNY</span>
+<span class="index-price">6.7700</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.04%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">USD/HKD</span>
+<span class="index-price">7.8400</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.01%</span></span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">🛢</span> 商品</div>
+<div class="index-row">
+<span class="index-name">黄金</span>
+<span class="index-price">$4018.80</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.15%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">原油</span>
+<span class="index-price">$81.78</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.86%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">白银</span>
+<span class="index-price">$56.33</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.52%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">铜</span>
+<span class="index-price">$6.26</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.64%</span></span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">₿</span> 加密货币</div>
+<div class="index-row">
+<span class="index-name">BTC</span>
+<span class="index-price">$64,480.00</span>
+<span class="index-pct"><span style="color:#3FB950">▼ 0.49%</span></span>
+</div>
+<div class="index-row">
+<span class="index-name">ETH</span>
+<span class="index-price">$1,862.25</span>
+<span class="index-pct"><span style="color:#F85149">▲ 0.05%</span></span>
+</div>
+<div class="meta">📡 Yahoo Finance v8 API | 🗓 2026-07-17</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">📰</span> 要闻</div>
+<div style="margin-bottom:10px">
+<div style="font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:4px">▶ 财新网</div>
+<div class="news-item"><a href="https://www.12377.cn/" target="_blank" rel="noopener">网上有害信息举报专区</a></div>
+<div class="news-item"><a href="https://opinion.caixin.com/2026-07-19/102465936.html" target="_blank" rel="noopener">西班牙vs阿根廷：绿茵场下的200年经济分岔</a></div>
+<div class="news-item"><a href="https://opinion.caixin.com/2026-07-19/102465916.html" target="_blank" rel="noopener">世界华语文学高地的隆起</a></div>
+<div class="news-item"><a href="https://finance.caixin.com/2026-07-19/102465907.html" target="_blank" rel="noopener">国开行原行长欧阳卫民 退休三年后被查</a></div>
+<div class="news-item"><a href="https://www.caixin.com/2026-07-18/102465859.html" target="_blank" rel="noopener">商汤计划年内发射首批算力卫星 拟建5个万卡以上国产集群</a></div>
+<div class="news-item"><a href="https://photos.caixin.com/2026-07-18/102465756.html" target="_blank" rel="noopener">显影｜当尽孝压垮“小老人”：家庭式养老点探索营造“家”氛围</a></div>
+<div class="news-item"><a href="https://www.caixin.com/2026-07-18/102465751.html" target="_blank" rel="noopener">腾讯云吴运声：企业级智能体需求翻倍增长 落地难在打通企业数据与流程</a></div>
+<div class="news-item"><a href="https://photos.caixin.com/2026-07-18/102465738.html" target="_blank" rel="noopener">一周天下｜重庆彭水山体崩塌致8死34失联、台风“巴威”北上致东北暴雨</a></div>
+</div>
+<div style="margin-bottom:10px">
+<div style="font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:4px">▶ 人民网</div>
+<div class="news-item"><a href="http://opinion.people.com.cn/n1/2026/0719/c461529-40763374.html" target="_blank" rel="noopener">和音丨中国经济坚韧向前，持续为世界注入发展信心</a></div>
+<div class="news-item"><a href="http://finance.people.com.cn/n1/2026/0717/c1004-40762233.html" target="_blank" rel="noopener">开局之年，中国经济坚韧向前蓬勃向好</a></div>
+<div class="news-item"><a href="http://finance.people.com.cn/n1/2026/0716/c1004-40762029.html" target="_blank" rel="noopener">中国经济“半年考”成绩如何？增速稳、结构优</a></div>
+<div class="news-item"><a href="http://finance.people.com.cn/n1/2026/0717/c1004-40762914.html" target="_blank" rel="noopener">超大规模市场叠加消费升级 双重动能持续释放</a></div>
+<div class="news-item"><a href="http://finance.people.com.cn/n1/2026/0718/c1004-40763311.html" target="_blank" rel="noopener">从中国经济“半年报”看产业向“新”力</a></div>
+<div class="news-item"><a href="http://politics.people.com.cn/n1/2026/0719/c461001-40763371.html" target="_blank" rel="noopener">广西百色推动老区振兴</a></div>
+<div class="news-item"><a href="http://opinion.people.com.cn/n1/2026/0717/c461530-40762262.html" target="_blank" rel="noopener">树立和践行正确政绩观 推动金融高质量发展</a></div>
+<div class="news-item"><a href="http://finance.people.com.cn/n1/2026/0719/c1004-40763393.html" target="_blank" rel="noopener">"像建设新中国一样建设自己"</a></div>
+</div>
+<div style="margin-bottom:10px">
+<div style="font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:4px">▶ 东方财富</div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607163809344767.html" target="_blank" rel="noopener">长鑫科技中一签盈利几何</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607163809349814.html" target="_blank" rel="noopener">五粮液等多家A股公司分红</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607173809432636.html" target="_blank" rel="noopener">4家头部钨企上半年业绩预喜</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607193811725173.html" target="_blank" rel="noopener">硬科技长期成长逻辑是否生变？</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607173809674436.html" target="_blank" rel="noopener">人工智能如何重塑大城市治理？</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607173809684398.html" target="_blank" rel="noopener">全球人工智能治理期盼中国时刻</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607173809629012.html" target="_blank" rel="noopener">DeepSeek最新估值曝光(名单)</a></div>
+<div class="news-item"><a href="https://finance.eastmoney.com/a/202607173809485292.html" target="_blank" rel="noopener">超3500亿元！DeepSeek估值曝光</a></div>
+</div>
+<div style="margin-bottom:10px">
+<div style="font-size:14px;font-weight:600;color:#e6edf3;margin-bottom:4px">▶ FT中文网</div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110356" target="_blank" rel="noopener">大跌之后，科技股盛宴结束了吗？</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110357" target="_blank" rel="noopener">失守中国市场，德国汽车业将迎来怎样的连锁反应？</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110354" target="_blank" rel="noopener">人工智能大会开幕，中国设立人工智能治理新机构</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110353" target="_blank" rel="noopener">中期选举临近，特朗普重提大选干预论</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110352" target="_blank" rel="noopener">快递业告别价格战？“反内卷”成效待利润验证</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110349" target="_blank" rel="noopener">欧洲野火肆虐 法国过火面积创历史新高</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110351" target="_blank" rel="noopener">工业革命催生了工会，1300万第一代移民又将催生什么？</a></div>
+<div class="news-item"><a href="https://www.ftchinese.com/story/001110334" target="_blank" rel="noopener">支持冒险或放大浪费：地方引导基金该怎样投向未来产业？</a></div>
+</div>
+</div>
+<div class="section">
+<div class="section-title"><span class="icon">📋</span> 今日总结</div>
+<div class="summary-text">
+<strong>🌏 市场总览</strong><br>
+A股三大指数全线大跌，上证-3.05%，深证-5.40%，创业板-7.15%领跌；恒指收跌-1.78%；美股三大指数全线下跌（标普-1.01%、纳指-1.40%）；亚太市场普跌（日经-4.03%、KOSPI-6.37%）；欧洲混合（富时100+0.27%）。<br><br>
+美元指数DXY100.84，人民币持稳于6.7700
+。美債收益率全线下降，10年期4.54%、30年期5.06%。<br><br>
+<strong>🔥 A股热点</strong><br>
+行业板块：会展服务(+3.88%)、水力发电(+3.28%)、电能综合服务(+2.84%)领涨；
+概念板块：昨日打二板以上表现(+11.91%)、昨日连板_含一字(+3.44%)、昨日连板(+2.71%)。
+主力资金流入：麒麟电池(3.3亿)、数字货币(2.4亿)、超超临界发电(1.1亿)。<br><br>
+<strong>📌 要闻聚焦</strong><br>
+• 网上有害信息举报专区<br>• 西班牙vs阿根廷：绿茵场下的200年经济分岔<br>• 世界华语文学高地的隆起<br>• 国开行原行长欧阳卫民 退休三年后被查<br>• 商汤计划年内发射首批算力卫星 拟建5个万卡以上国产集群<br>• 显影｜当尽孝压垮“小老人”：家庭式养老点探索营造“家”氛围<br>• 腾讯云吴运声：企业级智能体需求翻倍增长 落地难在打通企业数据与流程<br>• 一周天下｜重庆彭水山体崩塌致8死34失联、台风“巴威”北上致东北暴雨<br>• 和音丨中国经济坚韧向前，持续为世界注入发展信心<br>• 开局之年，中国经济坚韧向前蓬勃向好<br>
+</div></div>
+<div class="footer">
+📡 数据来源：新浪财经 MCP / Yahoo Finance v8 API / 东方财富 API / CNBC<br>
+🗓 2026年7月17日 | 🔗 <a href="https://zhengyanting40.github.io/daily-digest/" style="color:#58a6ff">https://zhengyanting40.github.io/daily-digest/</a>
 </div>
 </body>
 </html>
