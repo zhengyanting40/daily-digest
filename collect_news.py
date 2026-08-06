@@ -1,167 +1,129 @@
 #!/usr/bin/env python3
-"""Collect news from caixin.com, people.com.cn, eastmoney.com, ftchinese.com"""
-import json, re, urllib.request, ssl, time
+"""Collect news: caixin + people + eastmoney + ftchinese"""
+import json, re, ssl, urllib.request, html as ihtml
 
-ssl_ctx = ssl.create_default_context()
-ssl_ctx.check_hostname = False
-ssl_ctx.verify_mode = ssl.CERT_NONE
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
 
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-HEADERS_MOBILE = {'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'}
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 
-def fetch(url, headers=None, timeout=20):
-    h = headers or HEADERS
+def fetch(url, timeout=20, headers=None, chunked=False):
+    h = {"User-Agent": UA}
+    if headers: h.update(headers)
     req = urllib.request.Request(url, headers=h)
+    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:
+        if chunked:
+            buf = b''
+            while True:
+                c = r.read(65536)
+                if not c: break
+                buf += c
+            return buf
+        return r.read()
+
+def clean(t):
+    t = re.sub(r'<[^>]+>', ' ', t)
+    t = ihtml.unescape(t)
+    return re.sub(r'\s+', ' ', t).strip()
+
+results = {'caixin': [], 'people': [], 'eastmoney': [], 'ftchinese': []}
+
+# 1. Caixin
+try:
+    html = fetch('https://www.caixin.com/', timeout=20).decode('utf-8', errors='replace')
+    seen = set()
+    for m in re.finditer(r'<a[^>]*href="([^"]*)"[^>]*>(.*?)</a>', html, re.DOTALL):
+        url, t = m.group(1), clean(m.group(2))
+        if not t or len(t) < 10: continue
+        if 'promote' in url or 'en.' in url or 'claw' in url: continue
+        if 'caixin.com' not in url: continue
+        if not url.startswith('http'): continue
+        if url in seen: continue
+        seen.add(url)
+        results['caixin'].append({'title': t, 'url': url})
+        if len(results['caixin']) >= 8: break
+except Exception as e:
+    print(f"caixin fail: {e}")
+print(f"caixin: {len(results['caixin'])}")
+
+# 2. People (http only)
+try:
+    html = fetch('http://www.people.com.cn/', timeout=20).decode('utf-8', errors='replace')
+    seen_url, seen_title = set(), set()
+    for m in re.finditer(r'<a[^>]*href="([^"]*)"[^>]*>(.*?)</a>', html, re.DOTALL):
+        url, t = m.group(1), clean(m.group(2))
+        if not t or len(t) < 10: continue
+        if 'n1/' not in url and 'n2/' not in url: continue
+        if '\u4eba\u6c11\u4f1a\u5ba2\u5385' in t or '\u5bf9\u8bdd\u4f01\u4e1a\u5bb6' in t or '\u66f4\u591a' in t: continue
+        if not url.startswith('http'): url = 'http://www.people.com.cn' + url
+        if url in seen_url or t in seen_title: continue
+        seen_url.add(url); seen_title.add(t)
+        results['people'].append({'title': t, 'url': url})
+        if len(results['people']) >= 8: break
+except Exception as e:
+    print(f"people fail: {e}")
+print(f"people: {len(results['people'])}")
+
+# 3. Eastmoney (chunked read)
+try:
+    raw = fetch('https://finance.eastmoney.com/', timeout=25, chunked=True)
+    html = raw.decode('utf-8', errors='replace')
+    seen = set()
+    for m in re.finditer(r'<a[^>]*href="([^"]*)"[^>]*>(.*?)</a>', html, re.DOTALL):
+        url, t = m.group(1), clean(m.group(2))
+        if not t or len(t) < 10: continue
+        if '\u66f4\u591a' in t or '&gt' in t: continue
+        if 'eastmoney.com' not in url: continue
+        if url in seen: continue
+        seen.add(url)
+        results['eastmoney'].append({'title': t, 'url': url})
+        if len(results['eastmoney']) >= 8: break
+except Exception as e:
+    print(f"eastmoney fail: {e}")
+print(f"eastmoney: {len(results['eastmoney'])}")
+
+# 4. FT Chinese (anchor title+url regex + topnews fallback)
+def ft_collect(url):
     try:
-        r = urllib.request.urlopen(req, context=ssl_ctx, timeout=timeout)
-        html = ''
-        while True:
-            chunk = r.read(65536)
-            if not chunk: break
-            html += chunk.decode('utf-8', errors='replace')
-        return html
-    except Exception as e:
-        return f'ERROR: {e}'
+        html = fetch(url, timeout=20).decode('utf-8', errors='replace')
+    except Exception:
+        return []
+    seen, out = set(), []
+    # anchor-based extraction: title + url pairs (strip trailing quote)
+    for m in re.finditer(r'<a[^>]*href="(/story/\d+)"[^>]*>(.*?)</a>', html, re.DOTALL):
+        u = m.group(1).strip('"')
+        t = clean(m.group(2))
+        full = 'https://www.ftchinese.com' + u
+        if full in seen: continue
+        seen.add(full)
+        out.append((t, full))
+    # fallback: full URL regex
+    if len(out) < 8:
+        for m in re.finditer(r'https://www\.ftchinese\.com/story/\d+', html):
+            u = m.group(0)
+            if u in seen: continue
+            seen.add(u)
+            out.append(('', u))
+    return out
 
-# === 1. 财新网 caixin.com ===
-print("=== Caixin ===")
-html = fetch('https://www.caixin.com/')
-caixin_news = []
-if html.startswith('ERROR'):
-    print(f"  {html}")
-else:
-    # Find links in the page
-    for m in re.finditer(r'<a[^>]*href="(https?://[^"]*caixin\.com[^"]*)"[^>]*>([^<]+)</a>', html):
-        url = m.group(1)
-        title = m.group(2).strip()
-        # Filter
-        if (len(title) > 8 and 'promote' not in url.lower() and 'en.' not in url 
-            and 'claw' not in url and 'English' not in title):
-            title = re.sub(r'\s+', ' ', title).strip()
-            caixin_news.append({'url': url, 'title': title})
-    # Also try finance.caixin.com
-    html2 = fetch('https://finance.caixin.com/')
-    if not html2.startswith('ERROR'):
-        for m in re.finditer(r'<a[^>]*href="(https?://[^"]*caixin\.com[^"]*)"[^>]*>([^<]+)</a>', html2):
-            url = m.group(1)
-            title = m.group(2).strip()
-            if (len(title) > 8 and 'promote' not in url.lower() and 'en.' not in url 
-                and 'claw' not in url and 'English' not in title):
-                title = re.sub(r'\s+', ' ', title).strip()
-                caixin_news.append({'url': url, 'title': title})
-    # Deduplicate
+try:
+    pairs = ft_collect('https://www.ftchinese.com/')
+    if len(pairs) < 8:
+        pairs2 = ft_collect('https://www.ftchinese.com/channel/topnews.html')
+        for p in pairs2:
+            if p[1] not in [x[1] for x in pairs]:
+                pairs.append(p)
     seen = set()
-    deduped = []
-    for item in caixin_news:
-        if item['url'] not in seen:
-            seen.add(item['url'])
-            deduped.append(item)
-    caixin_news = deduped[:10]
-    print(f"  Found {len(caixin_news)} news items")
-    for n in caixin_news:
-        print(f"    {n['title']}")
+    for t, u in pairs:
+        if u in seen: continue
+        seen.add(u)
+        results['ftchinese'].append({'title': t, 'url': u})
+        if len(results['ftchinese']) >= 8: break
+except Exception as e:
+    print(f"ft fail: {e}")
+print(f"ftchinese: {len(results['ftchinese'])}")
 
-# === 2. 人民网 people.com.cn (http:// only) ===
-print("\n=== People.cn ===")
-html = fetch('http://www.people.com.cn/', timeout=25)
-people_news = []
-if html.startswith('ERROR'):
-    print(f"  {html}")
-else:
-    for m in re.finditer(r'<a[^>]*href="(http[^"]*)"[^>]*>([^<]+)</a>', html):
-        url = m.group(1)
-        title = m.group(2).strip()
-        title = re.sub(r'\s+', ' ', title).strip()
-        # Filter for actual news links
-        if ('n1/' in url or 'n2/' in url) and len(title) >= 10:
-            if any(kw in title for kw in ['人民会客厅', '对话企业家', '更多', '频道']):
-                continue
-            # Make sure URL is absolute
-            if not url.startswith('http'):
-                continue
-            people_news.append({'url': url, 'title': title})
-    # Deduplicate
-    seen = set()
-    deduped = []
-    for item in people_news:
-        if item['url'] not in seen:
-            seen.add(item['url'])
-            deduped.append(item)
-    people_news = deduped[:10]
-    print(f"  Found {len(people_news)} news items")
-    for n in people_news:
-        print(f"    {n['title']}")
-
-# === 3. 东方财富 eastmoney.com ===
-print("\n=== Eastmoney ===")
-html = fetch('https://finance.eastmoney.com/', timeout=25)
-em_news = []
-if html.startswith('ERROR'):
-    print(f"  {html}")
-else:
-    for m in re.finditer(r'<a[^>]*href="(https?://[^"]*eastmoney\.com[^"]*)"[^>]*>([^<]+)</a>', html):
-        url = m.group(1)
-        title = m.group(2).strip()
-        title = re.sub(r'\s+', ' ', title).strip()
-        if len(title) > 8 and '更多' not in title and '&gt' not in title:
-            em_news.append({'url': url, 'title': title})
-    seen = set()
-    deduped = []
-    for item in em_news:
-        if item['url'] not in seen:
-            seen.add(item['url'])
-            deduped.append(item)
-    em_news = deduped[:10]
-    print(f"  Found {len(em_news)} news items")
-    for n in em_news[:10]:
-        print(f"    {n['title']}")
-
-# === 4. FT中文网 ftchinese.com ===
-print("\n=== FT Chinese ===")
-html = fetch('https://www.ftchinese.com/', timeout=25)
-ft_news = []
-if html.startswith('ERROR'):
-    print(f"  {html}")
-else:
-    # Precise match first
-    for m in re.finditer(r'<a[^>]*href="([^"]*ftchinese\.com/story/\d+[^"]*)"[^>]*>([^<]+)</a>', html):
-        url = m.group(1)
-        title = m.group(2).strip()
-        title = re.sub(r'\s+', ' ', title).strip()
-        if len(title) > 8:
-            ft_news.append({'url': url, 'title': title})
-    # If not enough, loose match
-    if len(ft_news) < 6:
-        for m in re.finditer(r'<a[^>]*href="/story/(\d+)"[^>]*>([^<]+)</a>', html):
-            url = f'https://www.ftchinese.com/story/{m.group(1)}'
-            title = m.group(2).strip()
-            title = re.sub(r'\s+', ' ', title).strip()
-            if len(title) > 8:
-                ft_news.append({'url': url, 'title': title})
-    # Deduplicate
-    seen = set()
-    deduped = []
-    for item in ft_news:
-        if item['url'] not in seen:
-            seen.add(item['url'])
-            deduped.append(item)
-    ft_news = deduped[:12]
-    print(f"  Found {len(ft_news)} news items")
-    for n in ft_news:
-        print(f"    {n['title']}")
-
-# Save all news
-all_news = {
-    'caixin': caixin_news[:10],
-    'people': people_news[:10],
-    'eastmoney': em_news[:10],
-    'ftchinese': ft_news[:12]
-}
-with open('/home/hermes_agent/digest/today_news.json', 'w') as f:
-    json.dump(all_news, f, ensure_ascii=False, indent=2)
-
-print(f"\n=== Summary ===")
-print(f"  Caixin: {len(caixin_news)}")
-print(f"  People: {len(people_news)}")
-print(f"  Eastmoney: {len(em_news)}")
-print(f"  FT Chinese: {len(ft_news)}")
+with open('/home/hermes_agent/digest/today_news.json', 'w', encoding='utf-8') as f:
+    json.dump(results, f, ensure_ascii=False)
+print("NEWS_DONE")

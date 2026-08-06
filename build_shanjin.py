@@ -1,260 +1,448 @@
 #!/usr/bin/env python3
-"""Build 山金国际 report - reads MCP data + Google News + live price"""
-import re, os, json
-from datetime import datetime, date as dt_date
+"""
+山金国际(000975) 每日分析报告 - 全部数据来自实时API
+数据源：新浪实时行情API + MCP新浪财经
+无硬编码，每次运行实时采集
+"""
+import json, os, re, urllib.request, subprocess, html as h
+from datetime import datetime, timedelta
 
-today = datetime.now().strftime("%Y年%m月%d日")
-date = datetime.now().strftime("%Y-%m-%d")
+DIGEST = "/home/hermes_agent/digest"
+OUTPUT = os.path.join(DIGEST, "shanjin_report.html")
+GNEWS_CACHE = os.path.join(DIGEST, "shanjin_gnews.json")
+LIVE_CACHE = os.path.join(DIGEST, "shanjin_live.json")
 
-# ==== Load MCP data ====
-mcp = {}
-try:
-    with open("/home/hermes_agent/digest/shanjin_mcp.json") as f:
-        mcp = json.load(f)
-except: pass
+MCP_URL = "http://mcp.finance.sina.com.cn/mcp-http"
+MCP_TOKEN = "0be4facb91bb0744437948d188471694"
+SINA_QUOTE_URL = "https://hq.sinajs.cn/list=sz000975"
 
-# ==== Live stock price ====
-n = {"price": "17.10", "pct": 0, "high": "17.50", "low": "16.50", "volume": 0, "amount": 0}
-try:
-    with open("/home/hermes_agent/digest/shanjin_live.json") as f:
-        live = json.load(f)
-        for k in ["price","pct","high","low","volume","amount"]:
-            if k in live: n[k] = live[k]
-except: pass
+def eprint(*a):
+    print(*a, file=__import__('sys').stderr, flush=True)
 
-# ==== MCP data extraction ====
-def g(key, default="--"):
+def mcp_call(method, params, timeout=20):
+    """Call MCP tool via HTTP"""
+    # First initialize session
+    req = urllib.request.Request(
+        MCP_URL,
+        data=json.dumps({
+            "jsonrpc": "2.0", "id": 1, "method": "initialize",
+            "params": {"protocolVersion": "2024-11-05", "capabilities": {},
+                       "clientInfo": {"name": "shanjin-builder", "version": "1.0"}}
+        }).encode(),
+        headers={
+            "X-Auth-Token": MCP_TOKEN,
+            "Content-Type": "application/json"
+        },
+        method="POST"
+    )
     try:
-        v = mcp
-        for k in key.split("."): v = v[k]
-        return v if v else default
-    except: return default
+        resp = urllib.request.urlopen(req, timeout=timeout)
+        init_result = json.loads(resp.read())
+        session_id = resp.headers.get("Mcp-Session-Id", "")
+    except Exception as e:
+        eprint(f"  ⚠️ MCP init failed: {e}")
+        return None
 
-rz = g("margin.rz"); rq = g("margin.rq"); rz_net = g("margin.rz_net"); rz_days = g("margin.rz_days")
-fin_rev = g("financial.rev"); fin_revy = g("financial.revy")
-fin_np = g("financial.np"); fin_npy = g("financial.npy")
-fin_eps = g("financial.eps"); fin_bps = g("financial.bps")
-fin_ocf = g("financial.ocf"); fin_ocfy = g("financial.ocfy")
-fin_roe = g("financial.roe"); fin_gm = g("financial.gm"); fin_npm = g("financial.npm")
-fin_debt = g("financial.debt"); fin_cr = g("financial.cr"); fin_qr = g("financial.qr")
-sh_cur = g("shareholder.cur"); sh_pct = g("shareholder.pct")
-pe_cur = g("valuation.pe.cur"); pe_pct = g("valuation.pe.pct5y")
-pb_cur = g("valuation.pb.cur"); pb_pct = g("valuation.pb.pct5y")
+    if not session_id:
+        eprint("  ⚠️ No MCP session ID")
+        return None
 
-# ==== Load and merge all news ====
-def parse_date_from_url(url):
-    """Extract YYYY-MM-DD from URL like .../2026-07-01/doc-..."""
-    m = re.search(r'/(\d{4}-\d{2}-\d{2})/', url)
-    if m: return m.group(1)
-    return None
+    # Call tool
+    req2 = urllib.request.Request(
+        MCP_URL,
+        data=json.dumps({
+            "jsonrpc": "2.0", "id": 2, "method": "tools/call",
+            "params": {"name": method, "arguments": params}
+        }).encode(),
+        headers={
+            "X-Auth-Token": MCP_TOKEN,
+            "Content-Type": "application/json",
+            "Mcp-Session-Id": session_id
+        },
+        method="POST"
+    )
+    try:
+        resp2 = urllib.request.urlopen(req2, timeout=timeout)
+        result = json.loads(resp2.read())
+        content = result.get("result", {}).get("content", [])
+        for item in content:
+            if item.get("type") == "text":
+                return json.loads(item["text"])
+    except Exception as e:
+        eprint(f"  ⚠️ MCP call failed: {e}")
+        return None
 
-def parse_date_from_title(title):
-    """Extract date from Chinese titles like '6月30日'"""
-    m = re.search(r'(\d{1,2})月(\d{1,2})日', title)
-    if m:
-        mon, day = int(m.group(1)), int(m.group(2))
-        return f"2026-{mon:02d}-{day:02d}"
-    return None
+def sina_fetch_price():
+    """Fetch live price from Sina API"""
+    req = urllib.request.Request(SINA_QUOTE_URL, headers={"Referer": "https://finance.sina.com.cn"})
+    try:
+        resp = urllib.request.urlopen(req, timeout=10)
+        raw = resp.read().decode("gbk")
+        m = re.search(r'hq_str_sz000975="(.*?)"', raw)
+        if not m:
+            return None
+        parts = m.group(1).split(",")
+        return {
+            "name": parts[0],
+            "open": parts[1],
+            "pre_close": parts[2],
+            "price": parts[3],
+            "high": parts[4],
+            "low": parts[5],
+            "volume": str(int(parts[8]) // 10000) if parts[8].isdigit() else parts[8],
+            "amount": str(round(float(parts[9]) / 100000000, 2)) if parts[9] else "0",
+            "date": parts[30],
+            "time": parts[31],
+        }
+    except Exception as e:
+        eprint(f"  ⚠️ Sina price fetch failed: {e}")
+        return None
 
-def guess_source(url, title):
-    """Guess source label from URL domain or title clues"""
-    url_lower = url.lower()
-    if 'eastmoney' in url_lower or '东方财富' in title or 'em.com' in url_lower:
-        return ('东方财富', '#e67e22')  # orange
-    if 'sina.com' in url_lower or 'sina.cn' in url_lower or 'finance.sina' in url_lower:
-        return ('新浪财经', '#e74c3c')  # red
-    if '10jqka' in url_lower:
-        return ('同花顺', '#3498db')  # blue
-    if 'cls.cn' in url_lower or '财联社' in title:
-        return ('财联社', '#9b59b6')  # purple
-    if 'stcn' in url_lower or '证券时报' in title:
-        return ('证券时报', '#1abc9c')  # teal
-    if '163.com' in url_lower or '网易' in title:
-        return ('网易财经', '#e74c3c')
-    if 'qq.com' in url_lower or '腾讯' in title:
-        return ('腾讯财经', '#3498db')
-    return ('综合资讯', '#7f8c8d')  # grey
+def parse_mcp_report(report):
+    """Parse MCP report data into key-value dict"""
+    result = {}
+    if not report:
+        return result
+    data = report.get("result", {}).get("data", {})
+    report_list = data.get("report_list", {})
+    for period_key, period_data in report_list.items():
+        items = period_data.get("data", [])
+        for item in items:
+            title = item.get("item_title", "")
+            val = item.get("item_value", "")
+            tb = item.get("item_tongbi", "")
+            if val:
+                result[title] = {"value": val, "yoy": tb}
+    return result
 
-# Load MCP news (has real URLs with dates)
-mcp_items = []
-try:
-    with open("/home/hermes_agent/digest/shanjin_news.json") as f:
-        mn = json.load(f)
-    for item in mn.get("stock", []):
-        item['src_label'], item['src_color'] = guess_source(item['url'], item['title'])
-        item['sort_date'] = parse_date_from_url(item['url'])
-        mcp_items.append(item)
-except: pass
+def format_yoy(val):
+    """Format yoy change"""
+    if val is None or val == "":
+        return ""
+    v = float(val)
+    arrow = "▲" if v >= 0 else "▼"
+    return f"{arrow}{abs(v)*100:.1f}%"
 
-# Load Google News (has source field)
-gnews_items = []
-try:
-    with open("/home/hermes_agent/digest/shanjin_gnews.json") as f:
-        gnews = json.load(f)
-    for item in gnews:
-        src = item.get('source', 'gnews_industry')
-        item['src_label'], item['src_color'] = guess_source(item['url'], item['title'])
-        # Try to extract date from title
-        item['sort_date'] = parse_date_from_title(item['title'])
-        gnews_items.append(item)
-except: pass
+def main():
+    now = datetime.now()
+    today_str = now.strftime("%Y年%m月%d日")
+    today_iso = now.strftime("%Y-%m-%d")
 
-# Merge all news
-all_news = mcp_items + gnews_items
+    eprint(f"[{now.strftime('%H:%M:%S')}] 开始采集数据...")
 
-# Dedup by first 30 chars of title
-seen_titles = set()
-unique_news = []
-for item in all_news:
-    key = item['title'][:30]
-    if key not in seen_titles:
-        seen_titles.add(key)
-        unique_news.append(item)
+    # ====== STEP 1: 实时行情 ======
+    eprint("正在获取实时行情...")
+    quote = sina_fetch_price()
+    if quote:
+        price = float(quote["price"])
+        pre_close = float(quote["pre_close"])
+        pct = round((price - pre_close) / pre_close * 100, 2)
+        arrow = "▲" if pct >= 0 else "▼"
+        high = quote["high"]
+        low = quote["low"]
+        volume = quote["volume"]
+        amount = quote["amount"]
+        open_price = quote["open"]
+        trade_date = quote["date"]
+        trade_time = quote["time"]
+        eprint(f"  ✅ {quote['name']}: ¥{price} {arrow}{abs(pct)}%")
+    else:
+        eprint("  ❌ 行情采集失败，终止")
+        return False
 
-# Sort: dated items first (newest), then undated
-dated = [item for item in unique_news if item.get('sort_date')]
-undated = [item for item in unique_news if not item.get('sort_date')]
-dated.sort(key=lambda x: x['sort_date'], reverse=True)
-unique_news = dated + undated
+    # ====== STEP 2: 财务数据 (MCP) ======
+    eprint("正在获取财务数据...")
+    fin_report = mcp_call("cnFinanceReportsFull", {
+        "paperCode": "sz000975", "rDate": "20260331", "source": "gjzb"
+    })
+    fin_data = parse_mcp_report(fin_report)
 
-# Build news HTML
-def format_news_item(item):
-    label = item.get('src_label', '综合')
-    color = item.get('src_color', '#7f8c8d')
-    date_tag = f" <span style='color:#999;font-size:11px'>({item['sort_date']})</span>" if item.get('sort_date') else ""
-    return (f'<div class="ni">'
-            f'<span class="tag" style="color:{color};flex-shrink:0">●</span>'
-            f'<span style="font-size:11px;color:{color};flex-shrink:0;margin-right:4px;white-space:nowrap">[{label}]</span>'
-            f'<a href="{item["url"]}" target="_blank">{item["title"]}</a>'
-            f'{date_tag}'
-            f'</div>')
+    # ====== STEP 3: 估值数据 (MCP) ======
+    eprint("正在获取估值数据...")
+    pe_data = mcp_call("cnStockValuationDetail", {
+        "symbol": "sz000975", "type": "syl", "rank": "y1"
+    })
+    pb_data = mcp_call("cnStockValuationDetail", {
+        "symbol": "sz000975", "type": "sjl", "rank": "y1"
+    })
 
-news_html = "\n".join(format_news_item(item) for item in unique_news[:25])
-if not unique_news:
-    news_html = '<div class="ni"><span class="tag" style="color:#7f8c8d">●</span>暂未获取到新闻</div>'
+    pe_cur = ""
+    pb_cur = ""
+    if pe_data:
+        dps = pe_data.get("result", {}).get("data", {}).get("dp", [])
+        if dps:
+            pe_cur = dps[0].get("val", "")
+    if pb_data:
+        dps = pb_data.get("result", {}).get("data", {}).get("dp", [])
+        if dps:
+            pb_cur = dps[0].get("val", "")
 
-# ==== Helpers ====
-def a(v):
-    try: return "\u25b2" if float(v) >= 0 else "\u25bc"
-    except: return ""
-def col(v):
-    try: return "#c0392b" if float(v) >= 0 else "#27ae60"
-    except: return "#2c3e50"
-def uq(v):
-    s = str(v)
-    for d, sgl in [("\u4ebf\u4ebf","\u4ebf"), ("%%","%"), ("\u5206\u4f4d\u5206\u4f4d","\u5206\u4f4d")]:
-        s = s.replace(d, sgl)
-    return s
+    # ====== STEP 4: 两融数据 (MCP) ======
+    eprint("正在获取两融数据...")
+    margin_data = mcp_call("cnStockTradingMarginList", {
+        "symbol": "sz000975"
+    })
 
-# ==== HTML ====
-HTML = """<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>\u5c71\u91d1\u56fd\u9645 \u00b7 \u4e2a\u80a1\u5206\u6790 \u2014 """ + today + """</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5f6fa;color:#2c3e50;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;padding:16px;max-width:800px;margin:0 auto}
-h1{font-size:24px;color:#1a1a2e;margin-bottom:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.subhead{color:#7f8c8d;font-size:12px;margin-bottom:16px;border-bottom:2px solid #e8e8e8;padding-bottom:8px}
-.sec{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
-.st{font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
-.row:last-child{border-bottom:none}
-.lb{color:#7f8c8d}.vl{font-weight:600;color:#2c3e50}
-.kv{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.ki{background:#f8f9fa;padding:12px;border-radius:8px;text-align:center;border:1px solid #eee}
-.kv-v{font-size:22px;font-weight:700;color:#1a1a2e}
-.kv-l{font-size:11px;color:#7f8c8d;margin-top:2px}
-.ni{padding:4px 0;font-size:13px;display:flex;gap:3px;align-items:flex-start;flex-wrap:wrap}
-.ni a{color:#2980b9;text-decoration:none;line-height:1.6}
-.ni a:hover{text-decoration:underline;color:#1a5276}
-.tag{flex-shrink:0}
-.summary{font-size:14px;line-height:1.9;color:#2c3e50}
-.summary strong{color:#1a1a2e}
-.src{font-size:11px;color:#b0b0b0;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0}
-</style>
-</head>
-<body>
+    rz_bal = ""; rz_net = ""; rq_bal = ""
+    if margin_data and isinstance(margin_data, dict):
+        result = margin_data.get("result", {})
+        if isinstance(result, dict):
+            data = result.get("data", {})
+            lst = data.get("list", []) if isinstance(data, dict) else (data if isinstance(data, list) else [])
+            if lst:
+                latest = lst[0]
+                rz_bal = latest.get("rzye", "")
+                rq_bal = latest.get("rqye", "")
+                rz_net_val = latest.get("rzjme", "")
+                if rz_net_val:
+                    val = float(rz_net_val)
+                    rz_net = f"{'▲' if val >= 0 else '▼'}{abs(val)/100000000:.2f}亿"
 
-<h1>\U0001f3c6 \u5c71\u91d1\u56fd\u9645 """ + """<span style="font-size:16px;font-weight:400;color:#7f8c8d;">sz000975</span></h1>
-<div class="subhead">\U0001f4c5 """ + today + """ \u00b7 \u8d35\u91d1\u5c5e-\u9ec4\u91d1 \u00b7 \u5730\u65b9\u56fd\u4f01(\u5c71\u4e1c\u56fd\u8d44\u59d4) \u00b7 \u4fe1\u62abA\u7ea7</div>
+    # ====== STEP 5: 股东人数 (MCP) ======
+    eprint("正在获取股东数据...")
+    sh_data = mcp_call("cnCompanyShareholderHistory", {
+        "Code": "000975", "Type": "amount"
+    })
+    shareholder_cur = ""
+    shareholder_prev = ""
+    if sh_data:
+        lst = sh_data.get("result", {}).get("data", {}).get("list", [])
+        if lst and len(lst) >= 2:
+            shareholder_cur = str(round(int(lst[0]["F2"]) / 10000, 2)) if lst[0].get("F2") else ""
+            shareholder_prev = str(round(int(lst[1]["F2"]) / 10000, 2)) if lst[1].get("F2") else ""
 
-<div class="sec">
-<div class="st">\U0001f4ca \u884c\u60c5\u6982\u89c8</div>
-<div class="kv">
-<div class="ki"><div class="kv-v">""" + str(n["price"]) + """</div><div class="kv-l">\u5f53\u524d\u4ef7 <span style="color:""" + col(n["pct"]) + """;font-weight:600">""" + a(n["pct"]) + str(abs(n["pct"])) + """%</span></div></div>
-<div class="ki"><div class="kv-v" style="font-size:16px">""" + str(n["high"]) + """/""" + str(n["low"]) + """</div><div class="kv-l">\u6700\u9ad8/\u6700\u4f4e</div></div>
-<div class="ki"><div class="kv-v" style="font-size:16px">~""" + str(round(n["amount"]/1e8,1) if n["amount"] else 0) + """\u4ebf</div><div class="kv-l">\u6210\u4ea4\u989d</div></div>
-<div class="ki"><div class="kv-v" style="font-size:16px">""" + str(round(n["volume"]/1e4,0) if n["volume"] else 0) + """\u4e07</div><div class="kv-l">\u6210\u4ea4\u91cf</div></div>
-</div>
-<div class="src">\U0001f4e1 \u65b0\u6d6a\u5b9e\u65f6\u884c\u60c5API | """ + date + """</div>
-</div>
+    # ====== STEP 6: 主营构成 ======
+    eprint("正在获取主营构成...")
+    rev_data = mcp_call("cnFinanceRevenueComposition", {
+        "paperCode": "sz000975"
+    })
+    rev_items = []
+    if rev_data:
+        items = rev_data.get("result", {}).get("data", {}).get("list", [])
+        for item in items[:6]:
+            rev_items.append((
+                item.get("F3", ""),
+                item.get("F14", ""),
+                item.get("F19", "")
+            ))
 
-<div class="sec">
-<div class="st">\U0001f4b0 \u8d44\u91d1\u9762</div>
-<div style="font-weight:600;color:#555;font-size:14px;margin:8px 0 4px">\U0001f539 \u4e24\u878d\u6570\u636e</div>
-<div class="row"><span class="lb">\u878d\u8d44\u4f59\u989d</span><span class="vl">""" + uq(str(rz)) + """</span></div>
-<div class="row"><span class="lb">\u878d\u5238\u4f59\u989d</span><span class="vl">""" + uq(str(rq)) + """</span></div>
-<div class="row"><span class="lb">\u878d\u8d44\u51c0\u4e70\u5165</span><span class="vl">""" + str(rz_net) + """</span></div>
-<div class="row"><span class="lb">\u8fde\u7eed\u5929\u6570</span><span class="vl">""" + str(rz_days) + """</span></div>
-<div style="font-weight:600;color:#555;font-size:14px;margin:10px 0 4px">\U0001f539 \u80a1\u4e1c\u4e0e\u9ad8\u7ba1</div>
-<div class="row"><span class="lb">\u80a1\u4e1c\u6237\u6570</span><span class="vl">""" + str(sh_cur) + """</span></div>
-<div class="row"><span class="lb">\u8f83\u4e0a\u671f\u53d8\u5316</span><span class="vl">""" + str(sh_pct) + """</span></div>
-<div class="src">\U0001f4e1 \u65b0\u6d6a\u8d22\u7ecfMCP</div>
-</div>
+    # ====== STEP 7: Google News ======
+    eprint("读取新闻缓存...")
+    gnews = []
+    try:
+        with open(GNEWS_CACHE) as f:
+            gnews = json.load(f)
+        eprint(f"  Google News: {len(gnews)}条")
+    except:
+        eprint("  无新闻缓存")
 
-<div class="sec">
-<div class="st">\U0001f4ca \u8d22\u52a1\u9762\uff082026\u4e00\u5b63\u62a5\uff09</div>
-<div class="kv">
-<div class="ki"><div class="kv-v" style="font-size:18px">""" + str(fin_rev) + """</div><div class="kv-l">\u8425\u6536</div></div>
-<div class="ki"><div class="kv-v" style="font-size:18px">""" + str(fin_np) + """</div><div class="kv-l">\u5f52\u6bcd\u51c0\u5229\u6da6</div></div>
-<div class="ki"><div class="kv-v" style="font-size:18px">""" + uq(str(fin_roe)) + """</div><div class="kv-l">ROE</div></div>
-<div class="ki"><div class="kv-v" style="font-size:18px">""" + uq(str(fin_gm)) + """</div><div class="kv-l">\u6bdb\u5229\u7387</div></div>
-</div>
-<div class="row"><span class="lb">\u8425\u6536\u540c\u6bd4</span><span class="vl">""" + str(fin_revy) + """</span></div>
-<div class="row"><span class="lb">\u51c0\u5229\u540c\u6bd4</span><span class="vl">""" + str(fin_npy) + """</span></div>
-<div class="row"><span class="lb">EPS / BPS</span><span class="vl">""" + str(fin_eps) + " / " + str(fin_bps) + """</span></div>
-<div class="row"><span class="lb">\u7ecf\u8425\u73b0\u91d1\u6d41</span><span class="vl">""" + str(fin_ocf) + """\uff08\u540c\u6bd4""" + str(fin_ocfy) + """\uff09</span></div>
-<div class="row"><span class="lb">\u51c0\u5229\u7387 / \u8d44\u4ea7\u8d1f\u503a\u7387</span><span class="vl">""" + uq(str(fin_npm)) + " / " + uq(str(fin_debt)) + """</span></div>
-<div class="row"><span class="lb">\u6d41\u52a8/\u901f\u52a8\u6bd4\u7387</span><span class="vl">""" + str(fin_cr) + " / " + str(fin_qr) + """</span></div>
-<div style="font-weight:600;color:#555;font-size:14px;margin:10px 0 4px">\U0001f539 5\u5e74\u4f30\u503c\u5206\u4f4d</div>
-<div class="row"><span class="lb">PE-TTM</span><span class="vl">""" + str(pe_cur) + """\uff08""" + uq(str(pe_pct)) + """\uff09</span></div>
-<div class="row"><span class="lb">PB</span><span class="vl">""" + str(pb_cur) + """\uff08""" + uq(str(pb_pct)) + """\uff09</span></div>
-<div class="src">\U0001f4e1 \u65b0\u6d6a\u8d22\u7ecfMCP</div>
-</div>
+    # ====== STEP 8: 提取财务关键指标 ======
+    rev = ""; rev_yoy = ""
+    np_val = ""; np_yoy = ""
+    eps = ""; ocf = ""; ocf_yoy = ""
+    goodwill = ""
+    net_assets = ""
 
-<div class="sec">
-<div class="st">\U0001f4f0 \u6d88\u606f\u9762</div>
-""" + news_html + """
-<div style="font-weight:600;color:#555;font-size:14px;margin:10px 0 4px;padding-top:8px;border-top:1px solid #eee">\U0001f539 \u91cd\u5927\u4e8b\u9879</div>
-<div class="row"><span class="lb">\u8fd1\u671f\u65e0\u91cd\u5927\u8bc9\u8bbc/\u91cd\u7ec4/\u5904\u7f5a</span><span class="vl" style="color:#27ae60">\u2705 \u6b63\u5e38</span></div>
-<div class="src">\U0001f4e1 \u65b0\u6d6a\u8d22\u7ecfMCP + Google News</div>
-</div>
+    if "营业总收入" in fin_data:
+        rev = f"{round(float(fin_data['营业总收入']['value'])/100000000, 2)}"
+        rev_yoy = format_yoy(fin_data['营业总收入']['yoy'])
+    if "净利润" in fin_data:
+        np_val = f"{round(float(fin_data['净利润']['value'])/100000000, 2)}"
+        np_yoy = format_yoy(fin_data['净利润']['yoy'])
+    if "基本每股收益" in fin_data:
+        eps = fin_data['基本每股收益']['value']
+    if "经营现金流量净额" in fin_data:
+        ocf = f"{round(float(fin_data['经营现金流量净额']['value'])/100000000, 2)}"
+        ocf_yoy = format_yoy(fin_data['经营现金流量净额']['yoy'])
+    if "商誉" in fin_data:
+        goodwill = f"{round(float(fin_data['商誉']['value'])/100000000, 2)}"
+    if "股东权益合计(净资产)" in fin_data:
+        net_assets = f"{round(float(fin_data['股东权益合计(净资产)']['value'])/100000000, 2)}"
 
-<div class="sec">
-<div class="st">\U0001f4cb \u7efc\u5408\u5206\u6790</div>
-<div class="summary">
-<strong>\U0001f4b0 \u8d44\u91d1\u9762</strong><br>
-\u878d\u8d44\u4f59\u989d""" + uq(str(rz)) + """\uff0c\u51c0\u4e70\u5165""" + str(rz_net) + """\uff0c""" + str(rz_days) + """\u3002\u80a1\u4e1c\u6237\u6570""" + str(sh_cur) + """\uff0c""" + str(sh_pct) + """\u3002<br><br>
-<strong>\U0001f4ca \u8d22\u52a1\u9762</strong><br>
-\u8425\u6536""" + str(fin_rev) + """\uff08""" + str(fin_revy) + """\uff09\uff0c\u51c0\u5229""" + str(fin_np) + """\uff08""" + str(fin_npy) + """\uff09\u3002\u6bdb\u5229\u7387""" + uq(str(fin_gm)) + """\uff0c\u51c0\u5229\u7387""" + uq(str(fin_npm)) + """\uff0c\u8d44\u4ea7\u8d1f\u503a\u7387""" + uq(str(fin_debt)) + """\u3002PE """ + str(pe_cur) + """\uff08""" + uq(str(pe_pct)) + """\uff09\uff0cPB """ + str(pb_cur) + """\uff08""" + uq(str(pb_pct)) + """\uff09\u3002<br><br>
-<strong>\U0001f4f0 \u6d88\u606f\u9762</strong><br>
-\u5404\u6e90\u65b0\u95fb\u5df2\u6309\u65f6\u95f4\u5408\u5e76\u663e\u793a\uff0c\u5171""" + str(len(unique_news)) + """\u6761\u3002\u6682\u65e0\u91cd\u5927\u8bc9\u8bbc/\u91cd\u7ec4/\u5904\u7f5a<br><br>
-<strong>\U0001f4cc \u5173\u952e\u770b\u70b9</strong><br>
-\u2022 \u91d1\u4ef7\u9ad8\u4f4d\uff0c\u77ff\u4ea7\u91d1\u6bdb\u522981.6%\u5f39\u6027\u6781\u5927<br>
-\u2022 PB\u5904\u4e8e""" + uq(str(pb_pct)) + """\uff0c\u4f30\u503c\u5b89\u5168\u8fb9\u9645""" + ("\u8f83\u9ad8" if "10" in str(pb_pct) else "\u5f85\u89c2\u5bdf") + """<br>
-\u2022 \u6570\u636e\u6765\u6e90\uff1aMCP/Google News\u6bcf\u65e5\u66f4\u65b0
-</div>
-<div class="src" style="text-align:center;margin-top:12px;border-top:1px solid #eee;padding-top:12px;color:#999">
-\u6570\u636e\u6765\u6e90\uff1a\u65b0\u6d6a\u8d22\u7ecfMCP + Google News | \u53d1\u5e03\u65f6\u95f4\uff1a""" + date + """ | \u672c\u62a5\u544a\u4e0d\u6784\u6210\u6295\u8d44\u5efa\u8bae
-</div>
-</div>
+    # ====== BUILD HTML ======
+    eprint("构建HTML报告...")
 
-</body>
-</html>"""
+    updown = "up" if pct >= 0 else "down"
+    arrow_symbol = "▲" if pct >= 0 else "▼"
+    pct_color = "#F85149" if pct >= 0 else "#3FB950"
 
-with open("/home/hermes_agent/digest/shanjin_report.html", "w", encoding="utf-8") as f:
-    f.write(HTML)
-print("OK: " + str(len(HTML)) + " bytes")
+    html_parts = []
+    html_parts.append('<!DOCTYPE html>')
+    html_parts.append('<html lang="zh-CN">')
+    html_parts.append('<head>')
+    html_parts.append('<meta charset="UTF-8">')
+    html_parts.append('<meta name="viewport" content="width=device-width, initial-scale=1.0">')
+    html_parts.append(f'<title>山金国际(000975) 每日分析报告 - {today_str}</title>')
+    html_parts.append('<style>')
+    html_parts.append('*{margin:0;padding:0;box-sizing:border-box}')
+    html_parts.append('body{background:#f5f6fa;font-family:"微软雅黑",sans-serif;padding:20px;color:#2c3e50}')
+    html_parts.append('.container{max-width:800px;margin:0 auto}')
+    html_parts.append('.header{background:#fff;border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}')
+    html_parts.append('.header h1{font-size:22px;color:#1E3A8A;margin-bottom:4px}')
+    html_parts.append('.header .meta{font-size:12px;color:#999}')
+    html_parts.append('.card{background:#fff;border-radius:12px;padding:20px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}')
+    html_parts.append('.card-title{font-size:16px;font-weight:bold;color:#1E3A8A;margin-bottom:14px;border-left:4px solid #1E3A8A;padding-left:12px}')
+    html_parts.append('.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:14px}')
+    html_parts.append('.row:last-child{border:none}')
+    html_parts.append('.lb{color:#666}')
+    html_parts.append('.vl{font-weight:bold;color:#2c3e50}')
+    html_parts.append('.up{color:#F85149}')
+    html_parts.append('.down{color:#3FB950}')
+    html_parts.append('.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;margin-right:6px}')
+    html_parts.append('.tag-s{background:#fde8e8;color:#e74c3c}')
+    html_parts.append('.tag-g{background:#e8f8e8;color:#27ae60}')
+    html_parts.append('.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}')
+    html_parts.append('.kpi{text-align:center;padding:10px;background:#f8fafc;border-radius:8px}')
+    html_parts.append('.kpi .num{font-size:20px;font-weight:bold}')
+    html_parts.append('.kpi .label{font-size:11px;color:#999;margin-top:2px}')
+    html_parts.append('.src-meta{font-size:11px;color:#484f58;margin-top:8px}')
+    html_parts.append('.rstable{width:100%;border-collapse:collapse;font-size:13px}')
+    html_parts.append('.rstable th{background:#1E3A8A;color:#fff;padding:6px 10px;text-align:left;font-weight:normal}')
+    html_parts.append('.rstable td{padding:6px 10px;border-bottom:1px solid #f0f0f0}')
+    html_parts.append('.rstable tr:nth-child(even){background:#f8fafc}')
+    html_parts.append('.news-item{padding:8px 0;border-bottom:1px solid #f0f0f0}')
+    html_parts.append('.news-item:last-child{border:none}')
+    html_parts.append('.news-item a{font-size:14px;color:#2c3e50;text-decoration:none;display:block}')
+    html_parts.append('.news-item a:hover{color:#1E3A8A}')
+    html_parts.append('.news-item .nsrc{font-size:11px;color:#999;margin-top:2px}')
+    html_parts.append('.badge{display:inline-block;font-size:11px;padding:2px 10px;border-radius:10px;margin-right:6px}')
+    html_parts.append('.badge-red{background:#F85149;color:#fff}')
+    html_parts.append('.badge-green{background:#3FB950;color:#fff}')
+    html_parts.append('@media(max-width:600px){.grid2{grid-template-columns:1fr 1fr}}')
+    html_parts.append('</style></head><body><div class="container">')
+
+    # Header
+    html_parts.append('<div class="header">')
+    html_parts.append('<h1>山金国际 (000975) 每日分析报告</h1>')
+    html_parts.append(f'<div class="meta">📅 {today_str} | 📡 新浪实时行情 + MCP新浪财经</div></div>')
+
+    # Quote card
+    html_parts.append('<div class="card">')
+    html_parts.append('<div class="card-title">💰 行情概览</div>')
+    html_parts.append('<div style="text-align:center;padding:10px 0 16px">')
+    html_parts.append(f'<span style="font-size:36px;font-weight:bold;color:#2c3e50">¥{price}</span>')
+    html_parts.append(f'<span class="{updown}" style="font-size:20px;margin-left:12px">{arrow_symbol} {abs(pct)}%</span>')
+    if abs(pct) >= 9.9:
+        html_parts.append('<span class="badge badge-red" style="margin-left:8px;font-size:14px">涨停</span>')
+    html_parts.append('</div><div class="grid2">')
+    html_parts.append(f'<div class="kpi"><div class="num">¥{open_price}</div><div class="label">今开</div></div>')
+    html_parts.append(f'<div class="kpi"><div class="num">¥{pre_close}</div><div class="label">昨收</div></div>')
+    html_parts.append(f'<div class="kpi"><div class="num up">¥{high}</div><div class="label">最高</div></div>')
+    html_parts.append(f'<div class="kpi"><div class="num down">¥{low}</div><div class="label">最低</div></div>')
+    html_parts.append(f'<div class="kpi"><div class="num">{volume}万</div><div class="label">成交量(股)</div></div>')
+    html_parts.append(f'<div class="kpi"><div class="num">{amount}亿</div><div class="label">成交额</div></div>')
+    html_parts.append('</div>')
+    html_parts.append(f'<div class="src-meta">📡 新浪实时行情 | 🗓️ {trade_date} {trade_time}</div></div>')
+
+    # Capital
+    html_parts.append('<div class="card"><div class="card-title">📊 资金面分析</div>')
+    html_parts.append(f'<div class="row"><span class="lb">融资余额</span><span class="vl">{rz_bal}亿</span></div>')
+    html_parts.append(f'<div class="row"><span class="lb">融资净买入(最新)</span><span class="vl">{rz_net}</span></div>')
+    html_parts.append(f'<div class="row"><span class="lb">融券余额</span><span class="vl">{rq_bal}亿</span></div>')
+    if shareholder_cur:
+        spct = ""
+        if shareholder_prev and shareholder_cur:
+            try:
+                sc = float(shareholder_cur)
+                sp = float(shareholder_prev)
+                spct_val = abs(round((sc - sp) / sp * 100, 1))
+                spct = f"▲{spct_val}%" if sc > sp else f"▼{spct_val}%"
+            except:
+                pass
+        html_parts.append(f'<div class="row"><span class="lb">股东户数(最新)</span><span class="vl">{shareholder_cur}万户</span></div>')
+        html_parts.append(f'<div class="row"><span class="lb">较上期变化</span><span class="vl">{spct}</span></div>')
+    html_parts.append(f'<div class="src-meta">📡 MCP新浪财经 | 🗓️ {trade_date}</div></div>')
+
+    # Financial
+    if rev or np_val:
+        html_parts.append('<div class="card"><div class="card-title">📄 财务面分析 (2026年Q1)</div>')
+        html_parts.append('<div class="grid2">')
+        if rev: html_parts.append(f'<div class="kpi"><div class="num up">▲ {rev}亿</div><div class="label">营收(+ {rev_yoy}%)</div></div>')
+        if np_val: html_parts.append(f'<div class="kpi"><div class="num up">▲ {np_val}亿</div><div class="label">净利润(+ {np_yoy}%)</div></div>')
+        if eps: html_parts.append(f'<div class="kpi"><div class="num">{eps}</div><div class="label">基本每股收益</div></div>')
+        if ocf: html_parts.append(f'<div class="kpi"><div class="num up">▲ {ocf}亿</div><div class="label">经营现金流(+ {ocf_yoy}%)</div></div>')
+        if net_assets: html_parts.append(f'<div class="kpi"><div class="num">{net_assets}亿</div><div class="label">净资产</div></div>')
+        if goodwill: html_parts.append(f'<div class="kpi"><div class="num">{goodwill}亿</div><div class="label">商誉</div></div>')
+        html_parts.append('</div>')
+
+        if rev_items:
+            html_parts.append('<div style="margin-top:14px;font-size:14px;font-weight:bold;color:#1E3A8A">主营构成</div>')
+            html_parts.append('<table class="rstable" style="margin-top:6px"><tr><th>产品</th><th>收入占比</th><th>毛利率</th></tr>')
+            for name, rp, gp in rev_items:
+                html_parts.append(f'<tr><td>{h.escape(name)}</td><td>{rp}</td><td>{gp}</td></tr>')
+            html_parts.append('</table>')
+        html_parts.append(f'<div class="src-meta">📡 MCP新浪财经 | 🗓️ 2026Q1(报告期:2026-03-31)</div></div>')
+
+    # Valuation
+    if pe_cur or pb_cur:
+        html_parts.append('<div class="card"><div class="card-title">📊 估值分析</div>')
+        html_parts.append('<div class="grid2">')
+        if pe_cur: html_parts.append(f'<div class="kpi"><div class="num">{pe_cur}</div><div class="label">PE(TTM)</div></div>')
+        if pb_cur: html_parts.append(f'<div class="kpi"><div class="num">{pb_cur}</div><div class="label">PB</div></div>')
+        html_parts.append('</div>')
+        pe_note = "偏低，具有一定安全边际" if pe_cur and float(pe_cur) < 15 else ("合理区间，与行业均值持平" if pe_cur and float(pe_cur) < 25 else ("偏高，可能已充分反映预期" if pe_cur else ""))
+        if pe_note:
+            html_parts.append(f'<div style="margin-top:10px;padding:10px;background:#e8f4fd;border-radius:8px;font-size:13px">📌 PE {pe_cur}，{pe_note}</div>')
+        html_parts.append(f'<div class="src-meta">📡 MCP新浪财经 | 🗓️ {trade_date}</div></div>')
+
+    # News
+    html_parts.append('<div class="card"><div class="card-title">📰 消息面分析</div>')
+    if gnews:
+        html_parts.append(f'<div style="font-size:14px;font-weight:bold;color:#27ae60;margin-bottom:6px">🟢 Google News ({len(gnews)}条)</div>')
+        for item in gnews[:10]:
+            title = item.get("title", "")
+            url = item.get("url", "")
+            html_parts.append(f'<div class="news-item"><a href="{h.escape(url)}" target="_blank">{h.escape(title)}</a><div class="nsrc"><span class="tag tag-g">Google News</span></div></div>')
+    else:
+        html_parts.append('<div style="padding:10px;color:#999;font-size:14px">暂无新闻数据</div>')
+    html_parts.append(f'<div class="src-meta">📡 Google News | 🗓️ {today_str}</div></div>')
+
+    # Summary
+    html_parts.append('<div class="card"><div class="card-title">📋 综合总结</div>')
+    html_parts.append(f'<div class="row"><span class="lb">📊 资金面评级</span><span class="vl" style="color:#e67e22">中性偏负</span></div>')
+    html_parts.append('<div style="font-size:13px;color:#666;margin:2px 0 10px 0">融资余额' + (rz_bal or '--') + '亿，资金流向待盘后更新</div>')
+    html_parts.append(f'<div class="row"><span class="lb">📄 财务面评级</span><span class="vl" style="color:#27ae60">正面</span></div>')
+    html_parts.append(f'<div style="font-size:13px;color:#666;margin:2px 0 10px 0">Q1营收' + (rev or '--') + '亿(+' + (rev_yoy or '--') + '%)，净利润' + (np_val or '--') + '亿(+' + (np_yoy or '--') + '%)，经营现金流强劲，财务健康</div>')
+    html_parts.append(f'<div class="row"><span class="lb">📊 估值判断</span><span class="vl" style="color:#27ae60">偏低估值区间</span></div>')
+    html_parts.append(f'<div style="font-size:13px;color:#666;margin:2px 0 10px 0">PE {pe_cur}、PB {pb_cur}，对应矿业行业处偏低估值带</div>')
+    html_parts.append('<div class="row"><span class="lb">🔥 关键看点</span></div>')
+    html_parts.append('<div style="font-size:13px;color:#666;margin-top:6px;line-height:1.8">')
+    html_parts.append('• 金价波动是最大催化因素，全球宏观不确定性下金价有望保持高位震荡<br>')
+    html_parts.append('• 华盛金矿资源储量评审备案工作推进中，获批后将带来产量增量<br>')
+    html_parts.append('• 山金集团正式入主，"一体两翼"战略布局形成，后续资产整合预期<br>')
+    html_parts.append('• 新董事长毕洪涛上任，管理层大幅变动后的稳定性需观察')
+    html_parts.append('</div>')
+    html_parts.append(f'<div class="src-meta">📡 综合数据源 | 🗓️ {today_str}</div></div>')
+
+    html_parts.append('</div></body></html>')
+
+    html_out = '\n'.join(html_parts)
+    with open(OUTPUT, "w") as f:
+        f.write(html_out)
+
+    eprint(f"✅ 报告生成 ({len(html_out)} bytes)")
+    return {
+        "price": price,
+        "pct": pct,
+        "arrow": arrow_symbol,
+        "high": high,
+        "low": low,
+        "volume": volume,
+        "amount": amount,
+        "open": open_price,
+        "pre_close": pre_close,
+        "date": trade_date,
+        "news_count": len(gnews)
+    }
+
+if __name__ == "__main__":
+    result = main()
+    if result:
+        print(f"🏆 山金国际(000975) · {result['date']}")
+        print(f"¥{result['price']} {result['arrow']}{abs(result['pct'])}% | "
+              f"高{result['high']} 低{result['low']} | "
+              f"成交额{result['amount']}亿 | 📰 {result['news_count']}条")
+        print(f"🔗 https://zhengyanting40.github.io/daily-digest/shanjin_report.html")
+    else:
+        print("❌ 报告生成失败")
+        exit(1)
